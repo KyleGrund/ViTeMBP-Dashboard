@@ -6,6 +6,7 @@ class DevicesController < ApplicationController
   end
 
   def register
+    @id = @user.id
   end
 
   def details
