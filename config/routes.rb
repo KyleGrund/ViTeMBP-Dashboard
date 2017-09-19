@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :users
-  resources :devices
+  get '/:id/devices/' => 'devices#show'
+  get '/:id/devices/register' => 'devices#register'
+  get '/:id/devices/details/:devid' => 'devices#details'
   root to: 'visitors#index'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', :as => :signin

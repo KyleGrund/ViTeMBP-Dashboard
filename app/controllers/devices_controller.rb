@@ -7,4 +7,7 @@ class DevicesController < ApplicationController
 
   def register
   end
+
+  def details
+  end
 end
