@@ -17,7 +17,7 @@ class Device < ApplicationRecord
         table_name=>'DEVICE_TO_CUSTOMER',
         key: {
             'CUSTOMER_UUID' => uuid
-        }).items
+        }).items || []
   end
 
 end
