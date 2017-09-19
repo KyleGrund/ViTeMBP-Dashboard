@@ -9,5 +9,6 @@ class DevicesController < ApplicationController
   end
 
   def details
+    to_display = Device.get_devices(@user.uid)
   end
 end
