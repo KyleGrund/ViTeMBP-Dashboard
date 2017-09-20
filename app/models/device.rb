@@ -40,7 +40,7 @@ class Device < ApplicationRecord
   def self.is_device_registered(serial)
     dynamodb = Aws::DynamoDB::Client.new
     # if the serial is registered in the db it will be in the DEVICES table
-    dynamodb.get_item(
+    !dynamodb.get_item(
         table_name: 'DEVICES',
         key: {
             'ID' => serial
@@ -48,7 +48,14 @@ class Device < ApplicationRecord
     ).item.nil?
   end
 
-  def self.register_device(serial)
-
+  def self.register_device(serial, uid)
+    dynamodb.put_item({
+      table_name: 'Products',
+      condition_expression: 'attribute_not_exists(product_id)',
+      item: {
+        'DEVICE_UUID' => serial.to_s,
+        'CUSTOMER_UUID' => uid.to_s
+      }
+    })
   end
 end
