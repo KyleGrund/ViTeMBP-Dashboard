@@ -14,7 +14,7 @@ class Device < ApplicationRecord
   def self.get_devices(uuid)
     dynamodb = Aws::DynamoDB::Client.new
     dynamodb.batch_get_item(
-        table_name=>'DEVICE_TO_CUSTOMER',
+        table_name: 'DEVICE_TO_CUSTOMER',
         key: {
             'CUSTOMER_UUID' => uuid
         }).items || []
@@ -24,7 +24,7 @@ class Device < ApplicationRecord
     dynamodb = Aws::DynamoDB::Client.new
     # if the serial has been claimed it will be in the DEVICE_TO_CUSTOMER table
     binding = dynamodb.get_item(
-        table_name=>'DEVICE_TO_CUSTOMER',
+        table_name: 'DEVICE_TO_CUSTOMER',
         key: {
             'DEVICE_UUID' => serial
         }
@@ -41,7 +41,7 @@ class Device < ApplicationRecord
     dynamodb = Aws::DynamoDB::Client.new
     # if the serial is registered in the db it will be in the DEVICES table
     dynamodb.get_item(
-        table_name=>'DEVICES',
+        table_name: 'DEVICES',
         key: {
             'ID' => serial
         }
