@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/:id/devices/' => 'devices#show'
   get '/:id/devices/register' => 'devices#register'
   get '/:id/devices/details/:devid' => 'devices#details'
+  get '/:id/devices/adddevice' => 'devices#adddevice'
   root to: 'visitors#index'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', :as => :signin

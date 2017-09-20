@@ -20,4 +20,35 @@ class Device < ApplicationRecord
         }).items || []
   end
 
+  def self.get_user_registered_to(serial)
+    dynamodb = Aws::DynamoDB::Client.new
+    # if the serial has been claimed it will be in the DEVICE_TO_CUSTOMER table
+    binding = dynamodb.get_item(
+        table_name=>'DEVICE_TO_CUSTOMER',
+        key: {
+            'DEVICE_UUID' => serial
+        }
+    ).item
+
+    unless binding.nil?
+      binding['CUSTOMER_UUID']
+    end
+
+    nil
+  end
+
+  def self.is_device_registered(serial)
+    dynamodb = Aws::DynamoDB::Client.new
+    # if the serial is registered in the db it will be in the DEVICES table
+    dynamodb.get_item(
+        table_name=>'DEVICES',
+        key: {
+            'ID' => serial
+        }
+    ).item.nil?
+  end
+
+  def self.register_device(serial)
+
+  end
 end
