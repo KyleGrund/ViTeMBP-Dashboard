@@ -49,6 +49,7 @@ class Device < ApplicationRecord
   end
 
   def self.register_device(serial, uid)
+    begin
     dynamodb.put_item({
       table_name: 'Products',
       condition_expression: 'attribute_not_exists(product_id)',
@@ -57,5 +58,9 @@ class Device < ApplicationRecord
         'CUSTOMER_UUID' => uid.to_s
       }
     })
+    rescue Aws::DynamoDB::Errors::ConditionalCheckFailedException
+      false
+    end
+    true
   end
 end
