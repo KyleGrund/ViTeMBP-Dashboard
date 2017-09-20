@@ -1,6 +1,6 @@
 <h1>Register a device.</h1>
 <p>
-  <%= form_tag("/" + @id.to_s + "/adddevice", method: "get") do %>
+  <%= form_tag("/" + @id.to_s + "/devices/adddevice", method: "get") do %>
       <%= label_tag(:q, "Serial of device to add:") %>
       <%= text_field_tag(:devserial) %>
       <%= submit_tag("Add") %>
