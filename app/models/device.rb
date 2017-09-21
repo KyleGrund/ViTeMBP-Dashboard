@@ -28,10 +28,10 @@ class Device < ApplicationRecord
         key: {
             'DEVICE_UUID' => serial
         }
-    ).item['CUSTOMER_UUID']
+    ).item
 
     unless binding.nil?
-      binding['CUSTOMER_UUID']
+      return binding['CUSTOMER_UUID']
     end
 
     nil
