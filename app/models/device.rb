@@ -17,7 +17,7 @@ class Device < ApplicationRecord
         table_name: 'DEVICE_TO_CUSTOMER',
         key_condition_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
         expression_attribute_values: {
-            ':CUSTOMER_UUID' => uuid.to_S
+            ':CUSTOMER_UUID' => uuid.to_s
         }
       }).items || []
   end
