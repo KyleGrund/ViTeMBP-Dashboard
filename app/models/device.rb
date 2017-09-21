@@ -13,11 +13,13 @@ class Device < ApplicationRecord
 
   def self.get_devices(uuid)
     dynamodb = Aws::DynamoDB::Client.new
-    dynamodb.batch_get_item(
+    dynamodb.query({
         table_name: 'DEVICE_TO_CUSTOMER',
-        key: {
-            'CUSTOMER_UUID' => uuid
-        }).items || []
+        key_condition_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
+        expression_attribute_values: {
+            ':CUSTOMER_UUID' => uuid.to_S
+        }
+      }).items || []
   end
 
   def self.get_user_registered_to(serial)
