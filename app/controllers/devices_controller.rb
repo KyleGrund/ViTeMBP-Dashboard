@@ -16,8 +16,14 @@ class DevicesController < ApplicationController
 
   def adddevice
     serial = params[:devserial]
-    @is_registered = Device.is_device_registered(serial)
-    @registered_user = Device.get_user_registered_to(serial)
-    @success = Device.register_device(serial, @user.uid)
+    Device.register_device(serial, @user.uid)
+    unless @success
+      if Device.is_device_registered(serial)
+        redirect_to :register, :alert => "Could not add device, device is already registered."
+      else
+        redirect_to :register, :alert => "Could not add device, check serial number and try again."
+      end
+    end
+    redirect_to :register, :notice => "Device successfully added."
   end
 end
