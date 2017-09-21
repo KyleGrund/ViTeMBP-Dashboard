@@ -52,10 +52,12 @@ class Device < ApplicationRecord
 
   def self.register_device(serial, uid)
     begin
+      # update the device entry with the current user's uuid so long as
+      # there isn't already another value bound to it.
       dynamodb = Aws::DynamoDB::Client.new
-      dynamodb.put_item({
+      dynamodb.update_item({
         table_name: 'DEVICES',
-        condition_expression: 'attribute_not_exists(ID)',
+        condition_expression: 'attribute_not_exists(CUSTOMER_UUID)',
         item: {
           'ID' => serial.to_s,
           'CUSTOMER_UUID' => uid.to_s
