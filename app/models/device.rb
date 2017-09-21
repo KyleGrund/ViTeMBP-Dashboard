@@ -15,7 +15,7 @@ class Device < ApplicationRecord
     dynamodb = Aws::DynamoDB::Client.new
     dynamodb.scan({
         table_name: 'DEVICES',
-        key_condition_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
+        filter_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
         expression_attribute_values: {
             ':CUSTOMER_UUID' => uuid.to_s
         }
