@@ -13,8 +13,8 @@ class Device < ApplicationRecord
 
   def self.get_devices(uuid)
     dynamodb = Aws::DynamoDB::Client.new
-    dynamodb.query({
-        table_name: 'DEVICE_TO_CUSTOMER',
+    dynamodb.scan({
+        table_name: 'DEVICES',
         key_condition_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
         expression_attribute_values: {
             ':CUSTOMER_UUID' => uuid.to_s
@@ -24,11 +24,11 @@ class Device < ApplicationRecord
 
   def self.get_user_registered_to(serial)
     dynamodb = Aws::DynamoDB::Client.new
-    # if the serial has been claimed it will be in the DEVICE_TO_CUSTOMER table
+    # if the serial has been claimed it will be in the DEVICES table
     binding = dynamodb.get_item(
-        table_name: 'DEVICE_TO_CUSTOMER',
+        table_name: 'DEVICES',
         key: {
-            'DEVICE_UUID' => serial
+            'ID' => serial
         }
     ).item
 
@@ -54,10 +54,10 @@ class Device < ApplicationRecord
     begin
       dynamodb = Aws::DynamoDB::Client.new
       dynamodb.put_item({
-        table_name: 'DEVICE_TO_CUSTOMER',
-        condition_expression: 'attribute_not_exists(DEVICE_UUID)',
+        table_name: 'DEVICES',
+        condition_expression: 'attribute_not_exists(ID)',
         item: {
-          'DEVICE_UUID' => serial.to_s,
+          'ID' => serial.to_s,
           'CUSTOMER_UUID' => uid.to_s
         }
       })
