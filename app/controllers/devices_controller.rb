@@ -16,8 +16,8 @@ class DevicesController < ApplicationController
 
   def adddevice
     serial = params[:devserial]
-    Device.register_device(serial, @user.uid)
-    if @success
+    success = Device.register_device(serial, @user.uid)
+    if success
       redirect_to "/" + @user.id.to_s + "/devices/register", :notice => "Device successfully added."
     else
       if Device.is_device_registered(serial)

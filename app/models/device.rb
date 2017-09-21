@@ -60,7 +60,7 @@ class Device < ApplicationRecord
         key: {
               'ID' => serial.to_s,
         },
-        condition_expression: 'attribute_not_exists(CUSTOMER_UUID)',
+        condition_expression: 'attribute_exists(ID) AND attribute_not_exists(CUSTOMER_UUID)',
         update_expression: "SET CUSTOMER_UUID = :customer_uuid",
         expression_attribute_values: {
             ':customer_uuid' => uid.to_s
