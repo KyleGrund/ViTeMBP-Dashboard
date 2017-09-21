@@ -57,11 +57,11 @@ class Device < ApplicationRecord
       dynamodb = Aws::DynamoDB::Client.new
       dynamodb.update_item({
         table_name: 'DEVICES',
+        key: {
+              'ID' => serial.to_s,
+        },
         condition_expression: 'attribute_not_exists(CUSTOMER_UUID)',
-        item: {
-          'ID' => serial.to_s,
-          'CUSTOMER_UUID' => uid.to_s
-        }
+        update_expression: "SET CUSTOMER_UUID = " + uid.to_s
       })
     rescue Aws::DynamoDB::Errors::ConditionalCheckFailedException
       return false
