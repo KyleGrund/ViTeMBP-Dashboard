@@ -3,6 +3,7 @@ class DevicesController < ApplicationController
   before_action :correct_user?, :except => [:index]
 
   def show
+    @to_display = Device.get_devices(@user.uid)
   end
 
   def register
