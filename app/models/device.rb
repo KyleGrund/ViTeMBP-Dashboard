@@ -61,7 +61,10 @@ class Device < ApplicationRecord
               'ID' => serial.to_s,
         },
         condition_expression: 'attribute_not_exists(CUSTOMER_UUID)',
-        update_expression: "SET CUSTOMER_UUID = " + uid.to_s
+        update_expression: "SET CUSTOMER_UUID = :customer_uuid",
+        expression_attribute_values: {
+            ':customer_uuid' => uid.to_s
+        }
       })
     rescue Aws::DynamoDB::Errors::ConditionalCheckFailedException
       return false
