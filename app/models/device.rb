@@ -28,7 +28,7 @@ class Device < ApplicationRecord
         key: {
             'DEVICE_UUID' => serial
         }
-    ).item
+    ).item['CUSTOMER_UUID']
 
     unless binding.nil?
       binding['CUSTOMER_UUID']
@@ -60,7 +60,7 @@ class Device < ApplicationRecord
         }
       })
     rescue Aws::DynamoDB::Errors::ConditionalCheckFailedException
-      false
+      return false
     end
     true
   end
