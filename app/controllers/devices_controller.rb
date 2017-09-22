@@ -4,7 +4,7 @@ class DevicesController < ApplicationController
 
   def show
     @id = @user.id
-    @to_display = Device.get_devices(@id)
+    @to_display = Device.get_devices(@user.uid)
   end
 
   def register
