@@ -1,8 +1,9 @@
 <% if user_signed_in? %>
-  <li><%= link_to 'Sign out', signout_path %></li>
-<% else %>
-  <li><%= link_to 'Sign in', signin_path %></li>
+  <li><%= link_to 'Captures', '/' + current_user.id.to_s + '/captures' %></li>
+  <li><%= link_to 'Devices', '/' + current_user.id.to_s + '/devices' %></li>
 <% end %>
 <% if user_signed_in? %>
-  <li><%= link_to 'Devices', '/' + @user.id.to_s + '/devices' %></li>
+    <li><%= link_to 'Sign out', signout_path %></li>
+<% else %>
+    <li><%= link_to 'Sign in', signin_path %></li>
 <% end %>
