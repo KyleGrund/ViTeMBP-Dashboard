@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get '/:id/devices/register' => 'devices#register'
   get '/:id/devices/details/:devid' => 'devices#details'
   get '/:id/devices/adddevice' => 'devices#adddevice'
+  get '/:id/captures/index' => 'captures#index'
+  get '/:id/captures/show/:capture_id' => 'captures#show'
   root to: 'visitors#index'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', :as => :signin
