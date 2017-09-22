@@ -6,7 +6,7 @@
         <tbody>
           <%= @to_display.each { |device| %>
             <tr>
-              <% render device %>
+              <td><%= link_to device, @id + '/devices/details/' + device %></td>
             </tr>
           <% } %>
         </tbody>
