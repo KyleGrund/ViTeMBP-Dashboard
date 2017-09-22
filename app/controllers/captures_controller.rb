@@ -7,6 +7,7 @@ class CapturesController < ApplicationController
   end
 
   def show
-    @capture_details = Hash.new
+    @id = @user.id.to_s
+    @captures = Capture.get_captures_for_user(@user.uid)
   end
 end
