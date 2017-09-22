@@ -1,14 +1,14 @@
 <div class="container">
   <div class="row">
     <h3>Your Devices</h3>
-    <%= @to_display.inspect %>
     <div class="column">
       <table class="table">
         <tbody>
+          <%= @to_display.each { |device| %>
             <tr>
-              <% #render device %>
+              <% render device %>
             </tr>
-        <% #end %>
+          <% } %>
         </tbody>
       </table>
     </div>
