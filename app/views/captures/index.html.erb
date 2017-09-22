@@ -1,2 +1,21 @@
 <h1>Captures</h1>
-<p>Your captures.</p>
+<h2>Your Captures</h2>
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <table class="table">
+        <tbody>
+        <% @captures.each { |capture| %>
+            <tr>
+              <td><%= capture['CREATEDTIME'] %></td>
+              <td><%= capture['FREQUENCY'] %></td>
+              <td><%= link_to 'System', '/' + @id + '/devices/details/' + capture['SYSTEM']  %></td>
+            </tr>
+        <% } %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<h2>Device Management</h2>
+<%= link_to 'Register a new device.', '/' + @id + '/devices/register' %>
