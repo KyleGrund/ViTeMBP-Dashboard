@@ -16,7 +16,7 @@ class Capture < ApplicationRecord
     dynamodb = Aws::DynamoDB::Client.new
     rows = dynamodb.scan({
          table_name: 'CAPTURES',
-         filter_expression: 'SYSTEM = :SYSTEM_UUID',
+         filter_expression: 'SYSTEM_UUID = :SYSTEM_UUID',
          expression_attribute_values: {
              ':SYSTEM_UUID' => system_uuid.to_s
          }
