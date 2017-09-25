@@ -5,13 +5,18 @@
     <div class="column">
       <table class="table">
         <tbody>
-        <% @captures.each { |capture| %>
+          <tr>
+            <th>Created</th>
+            <th>Sampling Rate</th>
+            <th>Device</th>
+          </tr>
+          <% @captures.each { |capture| %>
             <tr>
               <td><%= capture['CREATEDTIME'] %></td>
               <td><%= capture['FREQUENCY'] %></td>
               <td><%= link_to 'System', '/' + @id + '/devices/details/' + capture['SYSTEM_UUID']  %></td>
             </tr>
-        <% } %>
+          <% } %>
         </tbody>
       </table>
     </div>
