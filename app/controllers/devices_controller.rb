@@ -1,6 +1,6 @@
 class DevicesController < ApplicationController
   before_action :authenticate_user!
-  before_action :correct_user?, :except => [:index]
+  before_action :correct_user?
 
   def show
     @id = @user.id.to_s

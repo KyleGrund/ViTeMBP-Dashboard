@@ -1,9 +1,9 @@
 class CapturesController < ApplicationController
   before_action :authenticate_user!
-  before_action :correct_user?, :except => [:index]
+  before_action :correct_user?
 
   def index
-    @id = @user.id.to_s
+    @id = @user.id
     @captures = Capture.get_captures_for_user(@user.uid)
   end
 
