@@ -11,5 +11,8 @@ class CapturesController < ApplicationController
     @id = @user.id.to_s
     @capture_id = :capture_id
     @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap["LOCATION"] == @capture_id}.first
+    if @capture == nil
+      redirect_to root_url, :alert => 'Invalid capture location.'
+    end
   end
 end
