@@ -11,6 +11,18 @@ class Capture < ApplicationRecord
     end
   end
 
+  def self.get_capture_for_id(capture_id)
+    # gets row in the captures table which match the capture uuid
+    dynamodb = Aws::DynamoDB::Client.new
+    dynamodb.get_item({
+         table_name: 'CAPTURES',
+         filter_expression: 'LOCATION = :LOCATION',
+         expression_attribute_values: {
+             ':LOCATION' => capture_id.to_s
+         }
+     }).item
+  end
+
   def self.get_captures_for_system(system_uuid)
     # gets all rows in the captures table which match the system's uuid
     dynamodb = Aws::DynamoDB::Client.new

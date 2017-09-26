@@ -9,6 +9,7 @@ class CapturesController < ApplicationController
 
   def show
     @id = @user.id.to_s
-    @captures = Capture.get_captures_for_user(@user.uid)
+    @capture_id = :capture_id
+    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap["LOCATION"] == @capture_id}
   end
 end
