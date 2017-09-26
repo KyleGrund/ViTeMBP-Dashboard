@@ -9,12 +9,14 @@
             <th>Created</th>
             <th>Sampling Rate</th>
             <th>Device</th>
+            <th>Edit Capture</th>
           </tr>
           <% @captures.each { |capture| %>
             <tr>
               <td><%= capture['CREATEDTIME'] %></td>
               <td><%= capture['FREQUENCY'] %></td>
-              <td><%= link_to 'System', '/' + @id + '/devices/details/' + capture['SYSTEM_UUID']  %></td>
+              <td><%= link_to 'System', '/' + @id + '/devices/details/' + capture['SYSTEM_UUID'] %></td>
+              <td><%= link_to 'View Capture', '/' + @id + '/captures/show/' + capture['LOCATION'] %></td>
             </tr>
           <% } %>
         </tbody>
