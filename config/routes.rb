@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'captures/uploadsuccess'
+
   resources :users
   get '/:id/devices/' => 'devices#show'
   get '/:id/devices/register' => 'devices#register'

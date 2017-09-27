@@ -14,5 +14,18 @@
     </div>
   </div>
 </div>
-<h2>Processed Videos</h2>
 <h2>Upload Video</h2>
+<form action="https://uploads-vitembp-com.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="key" value="<%=@capture['SYSTEM_UUID']%>/${filename}">
+  <input type="hidden" name="AWSAccessKeyId" value="YOUR_AWS_ACCESS_KEY">
+  <input type="hidden" name="acl" value="private">
+  <input type="hidden" name="success_action_redirect" value="https://www.vitembp.com/<%=@id%>/captures/uploadsuccess/<%=@capture['SYSTEM_UUID']%>">
+  <input type="hidden" name="policy" value="YOUR_POLICY_DOCUMENT_BASE64_ENCODED">
+  <input type="hidden" name="signature" value="YOUR_CALCULATED_SIGNATURE">
+  <input type="hidden" name="Content-Type" value="image/jpeg">
+  Video file to upload:
+  <input name="file" type="file">
+  <br>
+  <input type="submit" value="Upload Video">
+</form>
+<h2>Processed Videos</h2>
