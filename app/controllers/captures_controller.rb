@@ -39,24 +39,22 @@ class CapturesController < ApplicationController
     # must provide sufficient time for long uploads of large video files over slower connections
     time = (Time.now.utc + 12*60*60).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    policy =  '{"expiration": "' + time + '",' + "\n"
-    policy += '  "conditions": [ ' + "\n"
-    policy += '    {"bucket": "' + @s3_ul_bucket + '"},' + "\n"
-    policy += '    ["starts-with", "$key", "' + @capture['SYSTEM_UUID'] + '/"],' + "\n"
-    policy += '    {"acl": "private"},' + "\n"
-    policy += '    {"success_action_redirect": "' + @s3_ul_success_url + '"},' + "\n"
-    policy += '    ["starts-with", "$Content-Type", ""],' + "\n"
-    policy += '  ]' + "\n"
+    policy =  '{"expiration": "' + time + '",'
+    policy += ' "conditions": ['
+    policy += ' {"bucket": "' + @s3_ul_bucket + '"},'
+    policy += ' ["starts-with", "$key", "' + @capture['SYSTEM_UUID'] + '/"],'
+    policy += ' {"acl": "private"},'
+    policy += ' {"success_action_redirect": "' + @s3_ul_success_url + '"},'
+    policy += ' ]'
     policy += '}'
+    Base64.encode64(policy).gsub("\n", "")
   end
 
   def build_ul_policy_signature(policy)
-    encoded_policy = Base64.encode64(policy).delete("\n")
-
-    signature = Base64.encode64(
+    Base64.encode64(
         OpenSSL::HMAC.digest(
             OpenSSL::Digest::Digest.new('sha1'),
-            Rails.application.secrets.s3_ul_access_secret, encoded_policy)
-        ).delete("\n")
+            Rails.application.secrets.s3_ul_access_secret, policy)
+    ).gsub("\n", "")
   end
 end
