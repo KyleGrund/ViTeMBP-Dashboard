@@ -28,6 +28,10 @@ class CapturesController < ApplicationController
     @s3_ul_signature = build_ul_policy_signature(@s3_ul_policy_doc)
   end
 
+  def uploadsuccess
+
+  end
+
   private
 
   def build_ul_policy
