@@ -16,13 +16,12 @@
 </div>
 <h2>Upload Video</h2>
 <form action="<%= @s3_ul_bucket %>.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="key" value="<%=@capture['SYSTEM_UUID']%>/${filename}">
+  <input type="hidden" name="key" value="<%= @capture['SYSTEM_UUID'] %>/${filename}">
   <input type="hidden" name="AWSAccessKeyId" value="<%= @s3_ul_access_key %>">
   <input type="hidden" name="acl" value="private">
-  <input type="hidden" name="success_action_redirect" value="<%= @s3_ul_success_base %>/<%=@id%>/captures/uploadsuccess/<%=@capture['SYSTEM_UUID']%>">
+  <input type="hidden" name="success_action_redirect" value="<%= @s3_ul_success_url %>">
   <input type="hidden" name="policy" value="<%= @s3_ul_policy_doc %>">
   <input type="hidden" name="signature" value="<%= @s3_ul_signature %>">
-  <input type="hidden" name="Content-Type" value="image/jpeg">
   Video file to upload:
   <input name="file" type="file">
   <br>
