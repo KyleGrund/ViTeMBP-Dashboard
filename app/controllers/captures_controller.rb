@@ -20,7 +20,7 @@ class CapturesController < ApplicationController
     redirect_to root_url, :alert => 'Invalid capture location.' if @capture.nil?
 
     # get upload parameters
-    @s3_ul_bucket = Rails.applicationion.secrets.s3_ul_bucket
+    @s3_ul_bucket = Rails.application.secrets.s3_ul_bucket
     @s3_ul_success_base = Rails.application.secrets.s3_ul_success_base
     @s3_ul_access_key = Rails.application.secrets.s3_ul_access_key
     @s3_ul_success_url = @s3_ul_success_base + '/' + @id + '/captures/uploadsuccess/' + @capture['SYSTEM_UUID']
