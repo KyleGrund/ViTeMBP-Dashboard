@@ -16,7 +16,7 @@
 </div>
 <h2>Upload Video</h2>
 <form action="https://<%= @s3_ul_bucket %>.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-  <input type="hidden" name="key" value="<%= @capture['SYSTEM_UUID'] %>/${filename}">
+  <input type="hidden" name="key" value="<%= @capture['LOCATION'] %>/${filename}">
   <input type="hidden" name="AWSAccessKeyId" value="<%= @s3_ul_access_key %>">
   <input type="hidden" name="acl" value="private">
   <input type="hidden" name="success_action_redirect" value="<%= @s3_ul_success_url %>">
