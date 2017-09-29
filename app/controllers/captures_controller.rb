@@ -23,7 +23,7 @@ class CapturesController < ApplicationController
     @s3_ul_bucket = Rails.application.secrets.s3_ul_bucket
     @s3_ul_success_base = Rails.application.secrets.s3_ul_success_base
     @s3_ul_access_key = Rails.application.secrets.s3_ul_access_key
-    @s3_ul_success_url = @s3_ul_success_base + '/' + @id + '/captures/uploadsuccess/' + @capture['SYSTEM_UUID']
+    @s3_ul_success_url = @s3_ul_success_base + '/' + @id + '/captures/uploadsuccess/' + @capture['LOCATION']
     @s3_ul_policy_doc = build_ul_policy
     @s3_ul_signature = build_ul_policy_signature(@s3_ul_policy_doc)
   end
@@ -47,7 +47,7 @@ class CapturesController < ApplicationController
     policy =  '{"expiration": "' + time + '",'
     policy += ' "conditions": ['
     policy += ' {"bucket": "' + @s3_ul_bucket + '"},'
-    policy += ' ["starts-with", "$key", "' + @capture['SYSTEM_UUID'] + '/"],'
+    policy += ' ["starts-with", "$key", "' + @capture['LOCATION'] + '/"],'
     policy += ' {"acl": "private"},'
     policy += ' {"success_action_redirect": "' + @s3_ul_success_url + '"},'
     policy += ' ]'
