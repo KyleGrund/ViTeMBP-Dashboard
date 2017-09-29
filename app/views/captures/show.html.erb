@@ -38,7 +38,7 @@
         </tr>
         <% @videos.each { |video| %>
             <tr>
-              <td><%= link_to video, @video_prefix + video %></td>
+              <td><%= link_to video[37..-1], @video_prefix + video %></td>
             </tr>
         <% } %>
         </tbody>
