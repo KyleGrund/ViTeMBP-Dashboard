@@ -34,7 +34,11 @@ class CapturesController < ApplicationController
     @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap["LOCATION"] == @capture_id }.first
 
     # if capture not found in users' captures return to root with an error
-    redirect_to root_url, :alert => 'Invalid capture location.' if @capture.nil?
+    if @capture.nil?
+      redirect_to root_url, :alert => 'Invalid capture location.'
+    else
+      redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :notice => "Your video has been uploaded and queued for processing. When finished it will be available in the processed videos list below."
+    end
   end
 
   private
