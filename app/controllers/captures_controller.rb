@@ -1,6 +1,7 @@
 require 'base64'
 require 'openssl'
 require 'digest/sha1'
+require 'aws-sdk'
 
 class CapturesController < ApplicationController
   before_action :authenticate_user!
@@ -35,31 +36,49 @@ class CapturesController < ApplicationController
   def uploadsuccess
     @id = @user.id.to_s
     @capture_id = params[:capture_id]
-    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap["LOCATION"] == @capture_id }.first
+    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap['LOCATION'] == @capture_id }.first
 
     # if capture not found in users' captures return to root with an error
     if @capture.nil?
       redirect_to root_url, :alert => 'Invalid capture location.'
     else
+      process_file(@capture, params['key'])
       redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :notice => "Your video has been uploaded and queued for processing. When finished it will be available in the processed videos list below."
     end
   end
 
   private
 
+  def process_file(capture, filename)
+    video_prefix = Rails.application.secrets.s3_output_bucket_url_base
+    capture_uuid = @capture['LOCATION']
+    video_url = video_prefix + capture_uuid + '/' + filename
+
+    send_processing_message('-pv ' + capture_uuid + ' ' + filename)
+  end
+
+  def send_processing_message(message_body)
+    queue_url = Rails.application.secret.sqs_queue_url
+    sqs = Aws::SQS::Client.new
+    sqs.send_message({
+        wueue_url: queue_url,
+        message_body: message_body})
+  end
+
   def build_ul_policy
     # build the time string to expire the policy 12 hours past the current time
     # must provide sufficient time for long uploads of large video files over slower connections
     time = (Time.now.utc + 12*60*60).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    policy =  '{"expiration": "' + time + '",'
-    policy += ' "conditions": ['
-    policy += ' {"bucket": "' + @s3_ul_bucket + '"},'
-    policy += ' ["starts-with", "$key", "' + @capture['LOCATION'] + '/"],'
-    policy += ' {"acl": "private"},'
-    policy += ' {"success_action_redirect": "' + @s3_ul_success_url + '"},'
-    policy += ' ]'
-    policy += '}'
+    policy =
+        '{"expiration": "' + time + '",' +
+        ' "conditions": [' +
+        ' {"bucket": "' + @s3_ul_bucket + '"},' +
+        ' ["starts-with", "$key", "' + @capture['LOCATION'] + '/"],' +
+        ' {"acl": "private"},' +
+        ' {"success_action_redirect": "' + @s3_ul_success_url + '"},' +
+        ' ]' +
+        '}'
     Base64.encode64(policy).gsub("\n", "")
   end
 
