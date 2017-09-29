@@ -26,6 +26,10 @@ class CapturesController < ApplicationController
     @s3_ul_success_url = @s3_ul_success_base + '/' + @id + '/captures/uploadsuccess/' + @capture['LOCATION']
     @s3_ul_policy_doc = build_ul_policy
     @s3_ul_signature = build_ul_policy_signature(@s3_ul_policy_doc)
+
+    # build list of processed videos
+    @videos = Capture.get_videos_for_capture(@capture_id)
+    @video_prefix = Rails.application.secrets.s3_output_bucket_url_base
   end
 
   def uploadsuccess

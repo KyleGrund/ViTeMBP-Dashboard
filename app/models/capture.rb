@@ -11,6 +11,14 @@ class Capture < ApplicationRecord
     end
   end
 
+  def self.get_videos_for_capture(capture_id)
+    s3 = Aws::S3::Client.new
+    vid_objs = s3.list_objects_v2(
+        bucket: Rails.application.secrets.s3_output_bucket,
+        prefix: '/' + capture_id)
+    vid_objs['contents'].map { |elm| elm['key'] }
+  end
+
   def self.get_capture_for_id(capture_id)
     # gets row in the captures table which match the capture uuid
     dynamodb = Aws::DynamoDB::Client.new
