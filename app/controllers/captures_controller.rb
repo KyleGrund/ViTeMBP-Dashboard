@@ -54,7 +54,7 @@ class CapturesController < ApplicationController
     capture_uuid = @capture['LOCATION']
     video_url = video_prefix + capture_uuid + '/' + filename
 
-    send_processing_message('-pv ' + capture_uuid + ' ' + filename)
+    send_processing_message('-pv ' + capture_uuid + ' ' + video_url)
   end
 
   def send_processing_message(message_body)
