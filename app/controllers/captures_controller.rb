@@ -61,7 +61,7 @@ class CapturesController < ApplicationController
     queue_url = Rails.application.secrets.sqs_queue_url
     sqs = Aws::SQS::Client.new
     sqs.send_message({
-        wueue_url: queue_url,
+        queue_url: queue_url,
         message_body: message_body})
   end
 
