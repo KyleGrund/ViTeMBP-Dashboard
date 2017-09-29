@@ -29,7 +29,9 @@ class CapturesController < ApplicationController
   end
 
   def uploadsuccess
-
+    @id = @user.id.to_s
+    @capture_id = params[:capture_id]
+    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap["LOCATION"] == @capture_id }.first
   end
 
   private
