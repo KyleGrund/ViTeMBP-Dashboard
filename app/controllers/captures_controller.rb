@@ -51,10 +51,11 @@ class CapturesController < ApplicationController
 
   def process_file(capture, filename)
     video_prefix = Rails.application.secrets.s3_output_bucket_url_base
+    video_bucket = Rails.application.secrets.s3_output_bucket
     capture_uuid = @capture['LOCATION']
     video_url = video_prefix + capture_uuid + '/' + filename
 
-    send_processing_message('-pv ' + capture_uuid + ' ' + video_url)
+    send_processing_message('-pv ' + capture_uuid + ' ' + video_url + ' ' + video_bucket + ' ' + filename)
   end
 
   def send_processing_message(message_body)
