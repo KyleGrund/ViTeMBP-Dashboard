@@ -53,7 +53,7 @@ class CapturesController < ApplicationController
     video_prefix = Rails.application.secrets.s3_output_bucket_url_base
     video_bucket = Rails.application.secrets.s3_output_bucket
     capture_uuid = @capture['LOCATION']
-    video_url = video_prefix + capture_uuid + '/' + filename
+    video_url = video_prefix + filename
 
     send_processing_message('-pv ' + capture_uuid + ' ' + video_url + ' ' + video_bucket + ' ' + filename)
   end
