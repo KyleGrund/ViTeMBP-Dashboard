@@ -22,7 +22,19 @@ sudo sed -i 's/# include \/etc\/nginx\/passenger.conf;/include \/etc\/nginx\/pas
 # create a http to https redirect
 sudo sed -i 's/server_name _;/server_name _;\n\trewrite ^\/$ https:\/\/www.vitembp.com\/ redirect;/' /etc/nginx/sites-enabled/default
 
-#start nginex service
+# create the app server configuration file
+sudo echo "server {" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+sudo echo "  listen 3003 default_server;" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+sudo echo "  server_name www.vitembp.com;" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+sudo echo "  passenger_enabled on;" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+sudo echo "  passenger_app_env development;" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+sudo echo "  root /home/ubuntu/ViTeMBP-Dashboard/public;" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+sudo echo "}" >> /etc/nginx/sites-available/ViTeMBP-Dashboard
+
+# enable the server by linking the configuration file to the enabled directory
+sudo ln -s /etc/nginx/sites-available/ViTeMBP-Dashboard /etc/nginx/sites-enabled/ViTeMBP-Dashboard
+
+# restart nginex service load new config
 sudo service nginx restart
 
 cd ~
@@ -33,3 +45,18 @@ sudo apt-get -y install python-software-properties libffi-dev
 sudo gem install bundler
 bundle install
 rails db:migrate RAILS_ENV=development
+
+# setup environmental variables for ruby app, user must change these for their setup
+sudo echo "export OMNIAUTH_PROVIDER_KEY=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export OMNIAUTH_PROVIDER_SECRET=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export AWS_REGION=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export AWS_ACCESS_KEY_ID=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export AWS_SECRET_ACCESS_KEY=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export S3_UL_BUCKET=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export S3_UL_SUCCESS_BASE=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export S3_UL_ACCESS_KEY=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export S3_UL_ACCESS_SECRET=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export S3_OUTPUT_BUCKET=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export S3_OUTPUT_BUCKET_URL_BASE=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo echo "export SQS_QUEUE_URL=\"\"" >> /etc/profile.d/ViTeMBP.sh
+sudo chmod +x /etc/profile.d/ViTeMBP.sh
