@@ -16,7 +16,7 @@ class Capture < ApplicationRecord
     vid_objs = s3.list_objects_v2(
         bucket: Rails.application.secrets.s3_output_bucket,
         prefix: capture_id + '/')
-    vid_objs['contents'].select { |elm| elm['size'].positive? }.map { |elm| { :name => elm['key'], :last_modified => elm['last_modified'] } }
+    vid_objs['contents'].select { |elm| elm['size'].positive? }.map { |elm| { name: elm['key'], last_modified: elm['last_modified'] } }
   end
 
   def self.get_capture_for_id(capture_id)
