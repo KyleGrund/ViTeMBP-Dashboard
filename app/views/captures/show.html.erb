@@ -34,11 +34,13 @@
       <table class="table">
         <tbody>
         <tr>
+          <th>Created</th>
           <th>Link to Video</th>
         </tr>
         <% @videos.each { |video| %>
             <tr>
-              <td><%= link_to video[37..-1], @video_prefix + video %></td>
+              <td><%= video[:last_modified] %></td>
+              <td><%= link_to video[:name][37..-1], @video_prefix + video %></td>
             </tr>
         <% } %>
         </tbody>
