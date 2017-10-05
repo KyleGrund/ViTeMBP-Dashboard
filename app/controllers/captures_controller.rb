@@ -42,7 +42,7 @@ class CapturesController < ApplicationController
     if @capture.nil?
       # if capture not found in users' captures return to root with an error
       redirect_to root_url, :alert => 'Invalid capture location.'
-    else if (@capture_id + '/') == s3_key
+    elsif (@capture_id + '/') == s3_key
       # if the file section of key is blank notify user file is probably not selected
       redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :alert => 'Upload failed, check selected file.'
     else
