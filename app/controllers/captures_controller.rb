@@ -39,13 +39,14 @@ class CapturesController < ApplicationController
     @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap['LOCATION'] == @capture_id }.first
     s3_key = params['key']
 
-    # redirect with alert when user clicks upload that has no file specified
-    redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :alert => 'Upload failed, check selected file.' if s3_key.equal? @capture_id + '/'
-
-    # if capture not found in users' captures return to root with an error
     if @capture.nil?
+      # if capture not found in users' captures return to root with an error
       redirect_to root_url, :alert => 'Invalid capture location.'
+    else if (@capture_id + '/') == s3_key
+      # if the file section of key is blank notify user file is probably not selected
+      redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :alert => 'Upload failed, check selected file.'
     else
+      # file successfully uploaded, send processing request message
       process_file(@capture, s3_key)
       redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :notice => 'Your video has been uploaded and queued for processing. When finished it will be available in the processed videos list below.'
     end
