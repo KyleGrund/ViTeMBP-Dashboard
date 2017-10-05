@@ -40,7 +40,7 @@ class CapturesController < ApplicationController
     s3_key = params['key']
 
     # redirect with alert when user clicks upload that has no file specified
-    redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :alert => 'Upload failed, check selected file.' if s3_key.empty?
+    redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :alert => 'Upload failed, check selected file.' if s3_key.equal? @capture_id + '/'
 
     # if capture not found in users' captures return to root with an error
     if @capture.nil?
