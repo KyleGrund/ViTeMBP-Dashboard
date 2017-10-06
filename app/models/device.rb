@@ -11,6 +11,26 @@ class Device < ApplicationRecord
     end
   end
 
+  def self.get_device_config(dev_uuid, user_uuid)
+    # gets all rows in the devices table which match the customer's uuid
+    dynamodb = Aws::DynamoDB::Client.new
+    rows = dynamodb.scan({
+                             table_name: 'DEVICES',
+                             filter_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID AND ID = :DEV_UUID',
+                             expression_attribute_values: {
+                                 ':DEV_UUID' => dev_uuid.to_s,
+                                 ':CUSTOMER_UUID' => user_uuid.to_s
+                             }
+                         }).items || []
+
+    # return just the first or nil if empty
+    if rows.any?
+      return rows.first
+    else
+      return nil
+    end
+  end
+
   def self.get_devices(uuid)
     # gets all rows in the devices table which match the customer's uuid
     dynamodb = Aws::DynamoDB::Client.new

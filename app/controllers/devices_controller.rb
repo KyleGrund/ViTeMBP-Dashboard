@@ -12,7 +12,16 @@ class DevicesController < ApplicationController
   end
 
   def details
-    @to_display = Device.get_devices(@user.uid)
+    serial = params[:devserial]
+    device = Device.get_device_config(serial,@user.uid)
+
+    if device.nil?
+      redirect_to '/' + @user.id.to_s + '/devices', :alert => "Unknown device."
+    end
+
+    @device_config = device['CONFIG'] || 'No Configuration Saved.'
+    @device_id = device['ID']
+    @device_changes_pending = device['UPDATED'] || 'false'
   end
 
   def adddevice
