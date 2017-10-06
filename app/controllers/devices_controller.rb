@@ -12,7 +12,7 @@ class DevicesController < ApplicationController
   end
 
   def details
-    serial = params[:devserial]
+    serial = params[:devid]
     device = Device.get_device_config(serial,@user.uid)
 
     if device.nil?
