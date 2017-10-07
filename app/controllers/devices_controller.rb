@@ -40,8 +40,8 @@ class DevicesController < ApplicationController
   end
 
   def parse_config(config)
-    xml_config = Nokogiri::XML(config)
-    @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').to_s.to_f
+    xml_config = Nokogiri::XML::Document.parse(config)
+    @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').content.to_f
     @sensor_names = xml_config.xpath('/configuration/sensornames/name')
     @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
   end
