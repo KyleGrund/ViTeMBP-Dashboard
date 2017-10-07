@@ -17,6 +17,7 @@ class DevicesController < ApplicationController
 
     if device.nil?
       redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Unknown device.'
+      return
     end
 
     @device_config = device['CONFIG']
