@@ -1,6 +1,17 @@
 <h1>Device Details</h1>
 <h3>System Name</h3>
-<p><%= @device_name %></p>
+<table>
+  <tbody>
+  <tr>
+    <td>
+      Device Name
+    </td>
+    <td>
+      <input id="device_name" type="text" maxlength="100" value="<%= @device_name %>" />
+    </td>
+  </tr>
+  </tbody>
+</table>
 <h3>ID</h3>
 <p><%= @device_id %></p>
 <h3>Configuration Changes Pending</h3>
