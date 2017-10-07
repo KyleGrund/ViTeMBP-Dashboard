@@ -16,7 +16,24 @@
 <p><%= @device_id %></p>
 <h3>Configuration Changes Pending</h3>
 <p><%= @device_changes_pending %></p>
-<h3>Configuration</h3>
-<p>Sampling Frequency: <%= @sampling_frequency %></p>
-<p>Sensor Names: <%= @sensor_names.inspect %></p>
-<p>Sensor Bindings: <%= @sensor_bindings.inspect %></p>
+<h3>Capture Configuration</h3>
+<table>
+  <tbody>
+  <tr>
+    <td>
+      Sampling Frequency
+    </td>
+    <td>
+      <input id="sampling_frequency" type="text" maxlength="20" value="<%= @sampling_frequency %>" />
+    </td>
+  </tr>
+  <tr>
+    <td>Sensor Names</td>
+    <td><%= @sensor_names.inspect %></td>
+  </tr>
+  <tr>
+    <td>Sensor Bindings</td>
+    <td><%= @sensor_bindings.inspect %></td>
+  </tr>
+  </tbody>
+</table>
