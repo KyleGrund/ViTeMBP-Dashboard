@@ -19,10 +19,10 @@ class DevicesController < ApplicationController
       redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Unknown device.'
     end
 
-    @device_config = device['CONFIG'] || 'No Configuration Saved.'
+    @device_config = device['CONFIG']
+    parse_config @device_config
     @device_id = device['ID']
     @device_changes_pending = device['UPDATED'] || 'false'
-    parse_config @device_config
   end
 
   def adddevice
@@ -40,10 +40,17 @@ class DevicesController < ApplicationController
   end
 
   def parse_config(config)
-    xml_config = Nokogiri::XML::Document.parse(config)
-    @device_name = xml_config.at_xpath('/configuration/systemname').content
-    @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').content.to_f
-    @sensor_names = xml_config.xpath('/configuration/sensornames/name')
-    @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
+    if config.nil?
+      @device_name = ''
+      @sampling_frequency = 0.0
+      @sensor_names = []
+      @sensor_bindings = {}
+    else
+      xml_config = Nokogiri::XML::Document.parse(config)
+      @device_name = xml_config.at_xpath('/configuration/systemname').content
+      @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').content.to_f
+      @sensor_names = xml_config.xpath('/configuration/sensornames/name')
+      @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
+    end
   end
 end
