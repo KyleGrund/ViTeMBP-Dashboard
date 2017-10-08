@@ -26,6 +26,10 @@ class DevicesController < ApplicationController
     @device_changes_pending = device['UPDATED'] || 'false'
   end
 
+  def update_details
+
+  end
+
   def adddevice
     serial = params[:devserial]
     success = Device.register_device(serial, @user.uid)

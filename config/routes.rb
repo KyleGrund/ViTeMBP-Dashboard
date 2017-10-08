@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-  get 'captures/uploadsuccess'
-
   resources :users
   get '/:id/devices/' => 'devices#show'
   get '/:id/devices/register' => 'devices#register'
   get '/:id/devices/details/:devid' => 'devices#details'
+  get '/:id/devices/update_details/:devid' => 'devices#update_details'
   get '/:id/devices/adddevice' => 'devices#adddevice'
   get '/:id/captures' => 'captures#index'
   get '/:id/captures/show/:capture_id' => 'captures#show'
