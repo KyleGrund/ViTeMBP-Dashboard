@@ -46,14 +46,14 @@ class DevicesController < ApplicationController
     is_updated = false
 
     # check name
-    device_name = params[:devcie_name].to_s
-    if device_name.length > 100
+    new_device_name = params[:device_name].to_s
+    if new_device_name.length > 100
       redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, :alert => 'Device name is too  long.'
       return
     end
-    if @device_name != device_name
+    if @device_name != new_device_name
       is_updated = true
-      xml_config.at_xpath('/configuration/systemname').content = device_name
+      xml_config.at_xpath('/configuration/systemname').content = new_device_name
     end
 
     # check sampling frequency
