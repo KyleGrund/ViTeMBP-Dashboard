@@ -31,6 +31,30 @@ class Device < ApplicationRecord
     end
   end
 
+  def self.write_device_config(dev_uuid, user_uuid, config)
+    # gets all rows in the devices table which match the customer's uuid
+    dynamodb = Aws::DynamoDB::Client.new
+    dynamodb.put_item({
+        table_name: 'DEVICES',
+        item: {
+            'ID' => dev_uuid.to_s,
+            'CONFIG' => config.to_s,
+            'CUSTOMER_UUID' => user_uuid.to_s,
+            'UPDATED' => 'true'
+        },
+        expected: {
+            'ID' => {
+                value: dev_uuid.to_s,
+                exists: true
+            },
+            'CUSTOMER_UUID' => {
+                value: user_uuid.to_s,
+                exists: true
+            }
+        }
+    })
+  end
+
   def self.get_devices(uuid)
     # gets all rows in the devices table which match the customer's uuid
     dynamodb = Aws::DynamoDB::Client.new

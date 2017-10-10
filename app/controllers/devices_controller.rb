@@ -15,19 +15,71 @@ class DevicesController < ApplicationController
     serial = params[:devid]
     device = Device.get_device_config(serial,@user.uid)
 
+    # make sure device ID is valid
     if device.nil?
       redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Unknown device.'
       return
     end
 
     @device_config = device['CONFIG']
-    parse_config @device_config
+    xml_config = Nokogiri::XML::Document.parse(config)
+    parse_config xml_config
     @device_id = device['ID']
     @device_changes_pending = device['UPDATED'] || 'false'
   end
 
   def update_details
+    serial = params[:devid]
+    device = Device.get_device_config(serial,@user.uid)
 
+    # make sure device ID is valid
+    if device.nil?
+      redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Unknown device.'
+      return
+    end
+
+    @device_config = device['CONFIG']
+    xml_config = Nokogiri::XML::Document.parse(config)
+    parse_config xml_config
+
+    is_updated = false
+
+    # check name
+    device_name = params[:devcie_name].to_s
+    if device_name.length > 100
+      redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Device name is too  long.'
+      return
+    end
+    if @device_name != device_name
+      is_updated = true
+      xml_config.at_xpath('/configuration/systemname').content = device_name
+    end
+
+    # check sampling frequency
+    new_freq = params[:sampling_frequency].to_s.to_f
+    if new_freq <= 0.0 || new_freq > 1000.0
+      redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Invalid sampling frequency.'
+      return
+    end
+
+    if @sampling_frequency != new_freq
+      is_updated = true
+      xml_config.at_xpath('/configuration/samplingfrequency').content = new_freq.to_s
+    end
+
+    # check sensor names
+
+    # check sensor bindings
+
+    # if updated write to database
+    if is_updated
+      Device.write_device_config(@device_id, @user.uid, xml_config)
+      redirect_to '/' + @user.id.to_s + '/devices', :notice => 'Device settings updated.'
+      return
+    else
+      redirect_to '/' + @user.id.to_s + '/devices', :notice => 'No device settings updated.'
+      return
+    end
   end
 
   def adddevice
@@ -50,18 +102,10 @@ class DevicesController < ApplicationController
     end
   end
 
-  def parse_config(config)
-    if config.nil?
-      @device_name = ''
-      @sampling_frequency = 0.0
-      @sensor_names = []
-      @sensor_bindings = {}
-    else
-      xml_config = Nokogiri::XML::Document.parse(config)
-      @device_name = xml_config.at_xpath('/configuration/systemname').content
-      @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').content.to_f
-      @sensor_names = xml_config.xpath('/configuration/sensornames/name')
-      @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
-    end
+  def parse_config(xml_config)
+    @device_name = xml_config.at_xpath('/configuration/systemname').content
+    @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').content.to_f
+    @sensor_names = xml_config.xpath('/configuration/sensornames/name')
+    @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
   end
 end
