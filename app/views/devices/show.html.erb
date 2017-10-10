@@ -13,8 +13,8 @@
         <tbody>
           <% @to_display.each { |device| %>
             <tr>
-              <td><%= link_to device['name'], '/' + @id + '/devices/details/' + device['id'] %></td>
-              <td><%= link_to device['id'], '/' + @id + '/devices/details/' + device['id'] %></td>
+              <td><%= link_to device[:name], '/' + @id + '/devices/details/' + device[:id] %></td>
+              <td><%= link_to device[:id], '/' + @id + '/devices/details/' + device[:id] %></td>
             </tr>
           <% } %>
         </tbody>
