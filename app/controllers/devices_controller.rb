@@ -48,7 +48,7 @@ class DevicesController < ApplicationController
     # check name
     device_name = params[:devcie_name].to_s
     if device_name.length > 100
-      redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Device name is too  long.'
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, :alert => 'Device name is too  long.'
       return
     end
     if @device_name != device_name
@@ -59,7 +59,7 @@ class DevicesController < ApplicationController
     # check sampling frequency
     new_freq = params[:sampling_frequency].to_s.to_f
     if new_freq <= 0.0 || new_freq > 1000.0
-      redirect_to '/' + @user.id.to_s + '/devices', :alert => 'Invalid sampling frequency.'
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, :alert => 'Invalid sampling frequency.'
       return
     end
 
@@ -75,10 +75,10 @@ class DevicesController < ApplicationController
     # if updated write to database
     if is_updated
       Device.write_device_config(@device_id, @user.uid, xml_config)
-      redirect_to '/' + @user.id.to_s + '/devices', :notice => 'Device settings updated.'
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, :notice => 'Device settings updated.'
       return
     else
-      redirect_to '/' + @user.id.to_s + '/devices', :notice => 'No device settings updated.'
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, :notice => 'No device settings updated.'
       return
     end
   end
