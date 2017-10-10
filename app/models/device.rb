@@ -59,6 +59,18 @@ class Device < ApplicationRecord
     # gets all rows in the devices table which match the customer's uuid
     dynamodb = Aws::DynamoDB::Client.new
     rows = dynamodb.scan({
+       table_name: 'DEVICES',
+       filter_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
+       expression_attribute_values: {
+           ':CUSTOMER_UUID' => uuid.to_s
+       }
+    }).items || []
+  end
+
+  def self.get_device_ids(uuid)
+    # gets all rows in the devices table which match the customer's uuid
+    dynamodb = Aws::DynamoDB::Client.new
+    rows = dynamodb.scan({
         table_name: 'DEVICES',
         filter_expression: 'CUSTOMER_UUID = :CUSTOMER_UUID',
         expression_attribute_values: {

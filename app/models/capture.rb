@@ -50,7 +50,7 @@ class Capture < ApplicationRecord
 
   def self.get_captures_for_user(uuid)
     captures = Array.new()
-    Device.get_devices(uuid).each {|dev| get_captures_for_system(dev).each {|cap| captures.push cap}}
+    Device.get_device_ids(uuid).each {|dev| get_captures_for_system(dev).each {|cap| captures.push cap}}
     captures
   end
 end

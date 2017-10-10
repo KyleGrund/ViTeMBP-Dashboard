@@ -4,7 +4,12 @@ class DevicesController < ApplicationController
 
   def show
     @id = @user.id.to_s
-    @to_display = Device.get_devices(@user.uid)
+
+    @to_display = []
+    Device.get_devices(@user.uid).each { |dev|
+      parse_config dev['CONFIG']
+      @to_display.push(id: dev['ID'], name: @device_name)
+    }
   end
 
   def register
