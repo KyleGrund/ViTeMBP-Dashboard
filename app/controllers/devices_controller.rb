@@ -10,7 +10,7 @@ class DevicesController < ApplicationController
       if dev['CONFIG'].empty?
         @to_display.push(id: dev['ID'], name: 'Not Configured')
       else
-        parse_config dev['CONFIG']
+        parse_config Nokogiri::XML::Document.parse(dev['CONFIG'])
         @to_display.push(id: dev['ID'], name: @device_name)
       end
     }
