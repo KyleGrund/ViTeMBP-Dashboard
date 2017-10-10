@@ -42,6 +42,7 @@ class DevicesController < ApplicationController
     @device_config = device['CONFIG']
     xml_config = Nokogiri::XML::Document.parse(@device_config)
     parse_config xml_config
+    @device_id = device['ID']
 
     is_updated = false
 
