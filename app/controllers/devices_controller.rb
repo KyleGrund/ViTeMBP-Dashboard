@@ -7,7 +7,7 @@ class DevicesController < ApplicationController
 
     @to_display = []
     Device.get_devices(@user.uid).each { |dev|
-      if dev['CONFIG'].empty?
+      if dev['CONFIG'].blank?
         @to_display.push(id: dev['ID'], name: 'Not Configured')
       else
         parse_config Nokogiri::XML::Document.parse(dev['CONFIG'])
@@ -50,7 +50,7 @@ class DevicesController < ApplicationController
 
     # make sure device configuration is defined
     @device_config = device['CONFIG']
-    if device.empty?
+    if device.blank?
       redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Device must sync before configuration can be updated.'
       return
     end
