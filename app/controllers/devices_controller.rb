@@ -21,8 +21,8 @@ class DevicesController < ApplicationController
       return
     end
 
-    @device_config = device['CONFIG']
-    xml_config = Nokogiri::XML::Document.parse(config)
+    @device_config = device['CONFIG'].to_s
+    xml_config = Nokogiri::XML::Document.parse(@device_config)
     parse_config xml_config
     @device_id = device['ID']
     @device_changes_pending = device['UPDATED'] || 'false'
