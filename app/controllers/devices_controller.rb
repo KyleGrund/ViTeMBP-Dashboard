@@ -119,9 +119,18 @@ class DevicesController < ApplicationController
   end
 
   def parse_config(xml_config)
-    @device_name = xml_config.at_xpath('/configuration/systemname').content
-    @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency').content.to_f
+    # parse device name defaulting to empty string
+    @device_name = xml_config.at_xpath('/configuration/systemname')
+    @device_name = @device_name.blank? ? '' : @device_name.content
+
+    # parse sampling frequency name defaulting to 0.0001
+    @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency')
+    @sampling_frequency = @sampling_frequency.blank? ? 0.0001 : @sampling_frequency.content.to_f
+
+    # parse sensor names
     @sensor_names = xml_config.xpath('/configuration/sensornames/name')
+
+    # parse sensor bindings
     @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
   end
 end
