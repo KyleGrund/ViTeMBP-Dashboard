@@ -50,7 +50,7 @@ class DevicesController < ApplicationController
 
     # make sure device configuration is defined
     @device_config = device['CONFIG']
-    if device.blank?
+    if @device_config.blank?
       redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Device must sync before configuration can be updated.'
       return
     end
