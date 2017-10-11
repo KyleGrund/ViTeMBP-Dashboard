@@ -47,9 +47,16 @@
     <td>
       <% @sensor_bindings.each {|binding| %>
         <table>
+          <thead>
+          <tr>
+            <th>Sensor Name</th>
+            <th>Sensor Binding</th>
+          </tr>
+          </thead>
           <tbody>
           <tr>
-            <td><%= binding %></td>
+            <td><%= binding[:name] %></td>
+            <td><%= binding[:binding] %></td>
           </tr>
           </tbody>
         </table>
@@ -58,5 +65,5 @@
   </tr>
   </tbody>
 </table>
-<%= submit_tag("Update") %>
+<%= submit_tag('Save Changes') %>
 <% end %>
