@@ -123,14 +123,14 @@ class DevicesController < ApplicationController
     @device_name = xml_config.at_xpath('/configuration/systemname')
     @device_name = @device_name.blank? ? '' : @device_name.content
 
-    # parse sampling frequency name defaulting to 0.0001
+    # parse sampling frequency name defaulting to 0.0
     @sampling_frequency = xml_config.at_xpath('/configuration/samplingfrequency')
-    @sampling_frequency = @sampling_frequency.blank? ? 0.0001 : @sampling_frequency.content.to_f
+    @sampling_frequency = @sampling_frequency.blank? ? 0.0 : @sampling_frequency.content.to_f
 
     # parse sensor names
-    @sensor_names = xml_config.xpath('/configuration/sensornames/name')
+    @sensor_names = xml_config.xpath('/configuration/sensornames/name').map{ |elm| elm.content }
 
     # parse sensor bindings
-    @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
+    @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding').map{ |elm| elm.content }
   end
 end

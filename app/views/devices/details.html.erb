@@ -30,11 +30,31 @@
   </tr>
   <tr>
     <td>Sensor Names</td>
-    <td><%= @sensor_names.inspect %></td>
+    <td>
+      <% @sensor_names.each {|sensor| %>
+      <table>
+        <tbody>
+          <tr>
+            <td><%= sensor %></td>
+          </tr>
+        </tbody>
+      </table>
+      <% } %>
+    </td>
   </tr>
   <tr>
     <td>Sensor Bindings</td>
-    <td><%= @sensor_bindings.inspect %></td>
+    <td>
+      <% @sensor_bindings.each {|binding| %>
+        <table>
+          <tbody>
+          <tr>
+            <td><%= binding %></td>
+          </tr>
+          </tbody>
+        </table>
+      <% } %>
+    </td>
   </tr>
   </tbody>
 </table>
