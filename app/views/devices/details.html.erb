@@ -31,21 +31,20 @@
   <tr>
     <td>Sensor Names</td>
     <td>
-      <% @sensor_names.each {|sensor| %>
       <table>
         <tbody>
+          <% @sensor_names.each {|sensor| %>
           <tr>
             <td><%= sensor %></td>
           </tr>
+          <% } %>
         </tbody>
       </table>
-      <% } %>
     </td>
   </tr>
   <tr>
     <td>Sensor Bindings</td>
     <td>
-      <% @sensor_bindings.each {|binding| %>
         <table>
           <thead>
           <tr>
@@ -54,13 +53,14 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td><%= binding[:name] %></td>
-            <td><%= binding[:binding] %></td>
-          </tr>
+            <% @sensor_bindings.each {|binding| %>
+            <tr>
+              <td><%= binding[:name] %></td>
+              <td><%= binding[:binding] %></td>
+            </tr>
+            <% } %>
           </tbody>
         </table>
-      <% } %>
     </td>
   </tr>
   </tbody>
