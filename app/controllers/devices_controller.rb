@@ -95,14 +95,15 @@ class DevicesController < ApplicationController
       end
 
       # make sure site is valid
-      unless @sensor_binding_sites.has_key params[sensor]
+      unless @sensor_binding_sites.include? params[sensor] || params[sensor] == 'None'
         redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Invalid binding for sensor ' + sensor
         return
       end
 
       # sensors must not be double bound
       @sensor_names.reject{ |s| s == sensor }.each{ |s|
-        if params[s] != '' && params[s] == params[sensor]
+        new_site = params[s] == 'None' ? '' : params[s]
+        if new_site != '' && new_site == params[sensor]
           redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: sensor + ' and ' + s + ' must not be bound to the same sensor.'
           return
         end
@@ -111,10 +112,11 @@ class DevicesController < ApplicationController
 
     # check for changes
     @sensor_names.each{ |s|
-      if @sensor_bindings[s] != params[s]
+      new_site = params[s] == 'None' ? '' : params[s]
+      if @sensor_bindings[s] != new_site
         is_updated = true
         bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
-        bindings.find{ |b| b.at_xpath('name').content == s }.at_path('binding').content = params[s]
+        bindings.find{ |b| b.at_xpath('name').content == s }.at_path('binding').content = new_site
       end
     }
 
