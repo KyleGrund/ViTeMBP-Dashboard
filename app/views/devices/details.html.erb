@@ -53,12 +53,12 @@
           </tr>
           </thead>
           <tbody>
-            <% @sensor_bindings.each {|binding| %>
+            <% @sensor_bindings.each { |name, binding| %>
             <tr>
-              <td><%= binding[:name] %></td>
-              <td><%= select_tag binding[:name], options_for_select(
+              <td><%= name %></td>
+              <td><%= select_tag name, options_for_select(
                   @sensor_binding_sites,
-                  selected=@sensor_binding_sites.include?(binding[:binding]) ? binding[:binding] : 'None') %></td>
+                  selected=@sensor_binding_sites.include?(binding) ? binding : 'None') %></td>
             </tr>
             <% } %>
           </tbody>
