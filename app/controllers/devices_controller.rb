@@ -170,7 +170,7 @@ class DevicesController < ApplicationController
     # parse sensor bindings
     @sensor_bindings = {}
     xml_config.xpath('/configuration/sensorbindings/sensorbinding').each{ |elm|
-      @sensor_bindings.put name: elm.at_xpath('name').content, binding: elm.at_xpath('binding').content
+      @sensor_bindings[elm.at_xpath('name').content] = elm.at_xpath('binding').content
     }
   end
 end
