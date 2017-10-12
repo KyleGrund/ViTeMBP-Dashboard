@@ -102,7 +102,7 @@ class DevicesController < ApplicationController
 
       # sensors must not be double bound
       @sensor_names.reject{ |s| s == sensor }.each{ |s|
-        new_site = params[s] == 'None' ? '' : params[s]
+        new_site = params[s] == 'None' ? '00000000-0000-0000-0000-000000000000' : params[s]
         if new_site != '' && new_site == params[sensor]
           redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: sensor + ' and ' + s + ' must not be bound to the same sensor.'
           return
@@ -112,7 +112,7 @@ class DevicesController < ApplicationController
 
     # check for changes
     @sensor_names.each{ |s|
-      new_site = params[s] == 'None' ? '' : params[s]
+      new_site = params[s] == 'None' ? '00000000-0000-0000-0000-000000000000' : params[s]
       if @sensor_bindings[s] != new_site
         is_updated = true
         bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
@@ -165,7 +165,6 @@ class DevicesController < ApplicationController
 
     # parse sensor binding sites
     @sensor_binding_sites = xml_config.xpath('/configuration/sensorbindingsites/site').map{ |elm| elm.content }
-    @sensor_binding_sites.push('None')
 
     # parse sensor bindings
     @sensor_bindings = {}
