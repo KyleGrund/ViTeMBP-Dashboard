@@ -132,6 +132,7 @@ class DevicesController < ApplicationController
 
     # parse sensor binding sites
     @sensor_binding_sites = xml_config.xpath('/configuration/sensorbindingsites/site').map{ |elm| elm.content }
+    @sensor_binding_sites.push('None')
 
     # parse sensor bindings
     @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding').map{ |elm|
