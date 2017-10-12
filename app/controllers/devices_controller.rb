@@ -116,7 +116,7 @@ class DevicesController < ApplicationController
       if @sensor_bindings[s] != new_site
         is_updated = true
         bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
-        bindings.find{ |b| b.at_xpath('name').content == s }.at_path('binding').content = new_site
+        bindings.find{ |b| b.at_xpath('name').content == s }.at_xpath('binding').content = new_site
       end
     }
 
