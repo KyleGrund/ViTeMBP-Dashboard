@@ -95,7 +95,7 @@ class DevicesController < ApplicationController
       end
 
       # make sure site is valid
-      unless @sensor_binding_sites.include? params[sensor] || params[sensor] == 'None'
+      unless @sensor_binding_sites.include? params[sensor]
         redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Invalid binding for sensor ' + sensor
         return
       end
@@ -165,6 +165,7 @@ class DevicesController < ApplicationController
 
     # parse sensor binding sites
     @sensor_binding_sites = xml_config.xpath('/configuration/sensorbindingsites/site').map{ |elm| elm.content }
+    @sensor_binding_sites.push('None')
 
     # parse sensor bindings
     @sensor_bindings = {}
