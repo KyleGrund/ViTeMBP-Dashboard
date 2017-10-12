@@ -56,7 +56,7 @@
             <% @sensor_bindings.each {|binding| %>
             <tr>
               <td><%= binding[:name] %></td>
-              <td><%= binding[:binding] %></td>
+              <td><%= select_tag binding[:name], options_for_select(@sensor_binding_sites, selected=binding[:binding]) %></td>
             </tr>
             <% } %>
           </tbody>

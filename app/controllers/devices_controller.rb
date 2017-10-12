@@ -130,6 +130,9 @@ class DevicesController < ApplicationController
     # parse sensor names
     @sensor_names = xml_config.xpath('/configuration/sensornames/name').map{ |elm| elm.content }
 
+    # parse sensor binding sites
+    @sensor_binding_sites = xml_config.xpath('/configuration/sensorbindingsites/site').map{ |elm| elm.content }
+
     # parse sensor bindings
     @sensor_bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding').map{ |elm|
       { name: elm.at_xpath('name').content, binding: elm.at_xpath('binding').content }
