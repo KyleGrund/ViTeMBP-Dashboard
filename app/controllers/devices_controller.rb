@@ -86,6 +86,37 @@ class DevicesController < ApplicationController
     # check sensor names
 
     # check sensor bindings
+    # prevent two sensors from being bound to a single site
+    @sensor_names.each{ |sensor|
+      # all sensors must be defined
+      unless params.has_key? sensor
+        redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: sensor + ' not defined.'
+        return
+      end
+
+      # make sure site is valid
+      unless @sensor_binding_sites.has_key params[sensor]
+        redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Invalid binding for sensor ' + sensor
+        return
+      end
+
+      # sensors must not be double bound
+      @sensor_names.reject{ |s| s == sensor }.each{ |s|
+        if params[s] != '' && params[s] == params[sensor]
+          redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: sensor + ' and ' + s + ' must not be bound to the same sensor.'
+          return
+        end
+      }
+    }
+
+    # check for changes
+    @sensor_names.each{ |s|
+      if @sensor_bindings[s] != params[s]
+        is_updated = true
+        bindings = xml_config.xpath('/configuration/sensorbindings/sensorbinding')
+        bindings.find{ |b| b.at_xpath('name').content == s }.at_path('binding').content = params[s]
+      end
+    }
 
     # if updated write to database
     if is_updated
