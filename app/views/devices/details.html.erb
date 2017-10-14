@@ -1,6 +1,6 @@
 <h1>Device Configuration</h1>
 <%= form_tag('/' + @id + '/devices/update_details/' + @device_id, method: 'post') do %>
-<h3>System Name</h3>
+<h3>System</h3>
 <table>
   <tbody>
   <tr>
@@ -11,12 +11,32 @@
       <%= text_field_tag(:device_name, @device_name, maxlength: 100) %>
     </td>
   </tr>
+  <tr>
+    <td>
+      Serial Number
+    </td>
+    <td>
+      <%= @device_id %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Configuration Status
+    </td>
+    <td>
+      <%= @device_changes_pending ? 'Configuration changes are pending.' : 'Configuration is up to date.' %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Controls
+    </td>
+    <td>
+      <p><%= submit_tag('Reboot', value='reboot') %><p></p><%= submit_tag('Power Off', value='shutdown') %></p>
+    </td>
+  </tr>
   </tbody>
 </table>
-<h3>ID</h3>
-<p><%= @device_id %></p>
-<h3>Configuration Changes Pending</h3>
-<p><%= @device_changes_pending %></p>
 <h3>Capture Configuration</h3>
 <table>
   <tbody>
