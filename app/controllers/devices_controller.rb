@@ -35,7 +35,7 @@ class DevicesController < ApplicationController
     xml_config = Nokogiri::XML::Document.parse(@device_config)
     parse_config xml_config
     @device_id = device['ID']
-    @device_changes_pending = device['UPDATED'] || 'false'
+    @device_changes_pending = (device['UPDATED'] || 'false') == 'true'
   end
 
   def update_details
