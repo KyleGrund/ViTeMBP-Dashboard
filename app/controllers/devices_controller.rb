@@ -48,6 +48,19 @@ class DevicesController < ApplicationController
       return
     end
 
+    # handle button presses
+    if params[:commit] == 'Reboot'
+      send_processing_message('reboot', serial)
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'The device is rebooting.'
+      return
+    end
+
+    if params[:commit] == 'Power Off'
+      send_processing_message('shutdown', serial)
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'The device is shutting down.'
+      return
+    end
+
     # make sure device configuration is defined
     @device_config = device['CONFIG']
     if @device_config.blank?
@@ -172,5 +185,13 @@ class DevicesController < ApplicationController
     xml_config.xpath('/configuration/sensorbindings/sensorbinding').each{ |elm|
       @sensor_bindings[elm.at_xpath('name').content] = elm.at_xpath('binding').content
     }
+  end
+
+  def send_processing_message(message_body, dev_id)
+    queue_url = Rails.application.secrets.sqs_dev_queue_url + dev_id
+    sqs = Aws::SQS::Client.new
+    sqs.send_message({
+                         queue_url: queue_url,
+                         message_body: message_body})
   end
 end
