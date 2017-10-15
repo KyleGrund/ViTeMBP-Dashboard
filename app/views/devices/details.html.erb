@@ -1,5 +1,5 @@
 <h1>Device Configuration</h1>
-<%= form_for @updates do |f| %>
+<%= form_tag('/' + @id + '/devices/update_details/' + @device_id, method: 'post') do %>
 <h3>System</h3>
 <table>
   <tbody>
@@ -8,7 +8,7 @@
       Device Name
     </td>
     <td>
-      <%= f.text_field :post, :device_name, options: { maxlength: 100, value: @device_name } %>
+      <%= text_field_tag(:device_name, @device_name, maxlength: 100) %>
     </td>
   </tr>
   <tr>
@@ -32,8 +32,8 @@
       Controls
     </td>
     <td>
-      <%= f.submit value: 'Reboot', options: { id: 'reboot', name: 'reboot', data: { confirm: 'Are you sure you want to reboot the device?' } } %>
-      <%= f.submit('Power Off', options: { id: 'shutdown', name: 'shutdown', data: { confirm: 'Are you sure you want to power the device off?' } }) %>
+      <%= submit_tag 'Reboot', options: { id: 'reboot', name: 'reboot', data: { confirm: 'Are you sure you want to reboot the device?' } } %>
+      <%= submit_tag 'Power Off', options: { id: 'shutdown', name: 'shutdown', data: { confirm: 'Are you sure you want to power the device off?' } } %>
     </td>
   </tr>
   </tbody>
@@ -88,5 +88,5 @@
   </tr>
   </tbody>
 </table>
-<%= f.submit 'Save Changes' %>
+<%= submit_tag 'Save Changes', :name => 'save' %>
 <% end %>
