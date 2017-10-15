@@ -29,11 +29,20 @@
   </tr>
   <tr>
     <td>
-      Controls
+      Power Controls
     </td>
     <td>
       <%= submit_tag 'Reboot', data: { confirm: 'Are you sure you want to reboot the device?' } %>
       <%= submit_tag 'Power Off', data: { confirm: 'Are you sure you want to power the device off?' } %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Capture Controls
+    </td>
+    <td>
+      <%= submit_tag 'Start Capture' %>
+      <%= submit_tag 'End Capture' %>
     </td>
   </tr>
   </tbody>

@@ -61,6 +61,18 @@ class DevicesController < ApplicationController
       return
     end
 
+    if params[:commit] == 'Start Capture'
+      send_processing_message('startcapture', serial)
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Start capture sent.'
+      return
+    end
+
+    if params[:commit] == 'End Capture'
+      send_processing_message('endcapture', serial)
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'End capture sent.'
+      return
+    end
+
     # make sure device configuration is defined
     @device_config = device['CONFIG']
     if @device_config.blank?
