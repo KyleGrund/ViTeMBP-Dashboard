@@ -136,6 +136,7 @@ class DevicesController < ApplicationController
     # if updated write to database
     if is_updated
       Device.write_device_config(serial, @user.uid, xml_config)
+      send_processing_message('updateconfig', serial)
       redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Device settings updated.'
       return
     else
