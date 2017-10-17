@@ -96,13 +96,14 @@
     </td>
   </tr>
   <tr>
-    <td>Interface Priority</td>
+    <td>Interfaces</td>
     <td>
       <table>
         <thead>
         <tr>
           <th>Interface</th>
           <th>Priority (lowest is preferred)</th>
+          <th>Configuration</th>
         </tr>
         </thead>
         <tbody>
@@ -113,6 +114,7 @@
                 [ '1', '2', '3' ],
                 selected='1') %>
             </td>
+            <td></td>
           </tr>
           <tr>
             <td>Wireless Ethernet</td>
@@ -120,6 +122,10 @@
               <%= select_tag 'if_priority_wireless', options_for_select(
                   [ '1', '2', '3' ],
                   selected='2') %>
+            </td>
+            <td>
+              <p>SSID: <%= text_field_tag(:wifi_ssid, @wifi_ssid, maxlength: 32) %></p>
+              <p>Password: <%= password_field_tag(:wifi_password, @wifi_password, maxlength: 32) %></p>
             </td>
           </tr>
           <tr>
