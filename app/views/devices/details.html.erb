@@ -95,6 +95,45 @@
         </table>
     </td>
   </tr>
+  <tr>
+    <td>Interface Priority</td>
+    <td>
+      <table>
+        <thead>
+        <tr>
+          <th>Interface</th>
+          <th>Priority (lowest is preferred)</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Wired Ethernet</td>
+            <td>
+              <%= select_tag 'if_priority_wired', options_for_select(
+                [ '1', '2', '3' ],
+                selected='1') %>
+            </td>
+          </tr>
+          <tr>
+            <td>Wireless Ethernet</td>
+            <td>
+              <%= select_tag 'if_priority_wireless', options_for_select(
+                  [ '1', '2', '3' ],
+                  selected='2') %>
+            </td>
+          </tr>
+          <tr>
+            <td>Bluetooth Networking</td>
+            <td>
+              <%= select_tag 'if_priority_bluetooth', options_for_select(
+                  [ '1', '2', '3' ],
+                  selected='3') %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
   </tbody>
 </table>
 <%= submit_tag 'Save Changes', :name => 'save' %>
