@@ -141,7 +141,7 @@ class DevicesController < ApplicationController
 
     if @interface_metric_bluetooth != new_interface_metric_bluetooth
       is_updated = true
-      xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').content = new_interface_metric_bluetooth.to_s
+      xml_config.at_xpath('/configuration/networkinterfaces/bluetooth/metric').content = new_interface_metric_bluetooth.to_s
     end
 
     # check sensor names
