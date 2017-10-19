@@ -112,7 +112,7 @@
             <td>
               <%= select_tag 'if_priority_wired', options_for_select(
                 [ '1', '2', '3' ],
-                selected='1') %>
+                selected=@interface_metric_wired.to_s) %>
             </td>
             <td></td>
           </tr>
@@ -121,7 +121,7 @@
             <td>
               <%= select_tag 'if_priority_wireless', options_for_select(
                   [ '1', '2', '3' ],
-                  selected='2') %>
+                  selected=@interface_metric_wireless.to_s) %>
             </td>
             <td>
               <p>SSID: <%= text_field_tag(:wifi_ssid, @wifi_ssid, maxlength: 32) %></p>
@@ -133,7 +133,7 @@
             <td>
               <%= select_tag 'if_priority_bluetooth', options_for_select(
                   [ '1', '2', '3' ],
-                  selected='3') %>
+                  selected=@interface_metric_bluetooth.to_s) %>
             </td>
           </tr>
         </tbody>
