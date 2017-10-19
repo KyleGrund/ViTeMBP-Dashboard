@@ -96,6 +96,7 @@
     </td>
   </tr>
   <tr>
+    <% interface_options = [ '1', '2', '3' ] %>
     <td>Interfaces</td>
     <td>
       <table>
@@ -111,8 +112,8 @@
             <td>Wired Ethernet</td>
             <td>
               <%= select_tag 'if_priority_wired', options_for_select(
-                [ '1', '2', '3' ],
-                selected=@interface_metric_wired.to_s) %>
+                  interface_options,
+                  selected=interface_options.include?(@interface_metric_wired.to_s) ? @interface_metric_wired.to_s : '0') %>
             </td>
             <td></td>
           </tr>
@@ -120,8 +121,8 @@
             <td>Wireless Ethernet</td>
             <td>
               <%= select_tag 'if_priority_wireless', options_for_select(
-                  [ '1', '2', '3' ],
-                  selected=@interface_metric_wireless.to_s) %>
+                  interface_options,
+                  selected=interface_options.include?(@interface_metric_wireless.to_s) ? @interface_metric_wireless.to_s : '0') %>
             </td>
             <td>
               <p>SSID: <%= text_field_tag(:wifi_ssid, @wifi_ssid, maxlength: 32) %></p>
@@ -132,8 +133,8 @@
             <td>Bluetooth Networking</td>
             <td>
               <%= select_tag 'if_priority_bluetooth', options_for_select(
-                  [ '1', '2', '3' ],
-                  selected=@interface_metric_bluetooth.to_s) %>
+                  interface_options,
+                  selected=interface_options.include?(@interface_metric_bluetooth.to_s) ? @interface_metric_bluetooth.to_s : '0') %>
             </td>
           </tr>
         </tbody>
