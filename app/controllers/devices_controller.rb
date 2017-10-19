@@ -108,6 +108,42 @@ class DevicesController < ApplicationController
       xml_config.at_xpath('/configuration/samplingfrequency').content = new_freq.to_s
     end
 
+    # check interface metrics
+    new_interface_metric_wired = params[:if_priority_wired].to_s.to_i
+    new_interface_metric_wireless = params[:if_priority_wireless].to_s.to_i
+    new_interface_metric_bluetooth = params[:if_priority_bluetooth].to_s.to_i
+
+    # input validation
+    if new_interface_metric_wired < 1 || new_interface_metric_wired > 3 ||
+        new_interface_metric_wireless < 1 || new_interface_metric_wireless > 3 ||
+        new_interface_metric_bluetooth < 1 || new_interface_metric_bluetooth > 3
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Invalid interface metric.'
+      return
+    end
+
+    if new_interface_metric_wired == new_interface_metric_wireless ||
+        new_interface_metric_wired == new_interface_metric_bluetooth ||
+        new_interface_metric_wireless == new_interface_metric_bluetooth
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, alert: 'Interface metrics must all be different.'
+      return
+    end
+
+    # check if metrics are updated
+    if @interface_metric_wired != new_interface_metric_wired
+      is_updated = true
+      xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').content = new_interface_metric_wired.to_s
+    end
+
+    if @interface_metric_wireless != new_interface_metric_wireless
+      is_updated = true
+      xml_config.at_xpath('/configuration/networkinterfaces/wirelessethernet/metric').content = new_interface_metric_wireless.to_s
+    end
+
+    if @interface_metric_bluetooth != new_interface_metric_bluetooth
+      is_updated = true
+      xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').content = new_interface_metric_bluetooth.to_s
+    end
+
     # check sensor names
 
     # check sensor bindings
@@ -198,6 +234,11 @@ class DevicesController < ApplicationController
     xml_config.xpath('/configuration/sensorbindings/sensorbinding').each{ |elm|
       @sensor_bindings[elm.at_xpath('name').content] = elm.at_xpath('binding').content
     }
+
+    # parse interface metrics
+    @interface_metric_wired = xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').to_s.to_i
+    @interface_metric_wireless = xml_config.at_xpath('/configuration/networkinterfaces/wirelessethernet/metric').to_s.to_i
+    @interface_metric_bluetooth = xml_config.at_xpath('/configuration/networkinterfaces/bluetooth/metric').to_s.to_i
   end
 
   def send_processing_message(message_body, dev_id)
