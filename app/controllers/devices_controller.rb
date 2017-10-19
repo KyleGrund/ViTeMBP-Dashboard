@@ -236,9 +236,9 @@ class DevicesController < ApplicationController
     }
 
     # parse interface metrics
-    @interface_metric_wired = xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').to_s.to_i
-    @interface_metric_wireless = xml_config.at_xpath('/configuration/networkinterfaces/wirelessethernet/metric').to_s.to_i
-    @interface_metric_bluetooth = xml_config.at_xpath('/configuration/networkinterfaces/bluetooth/metric').to_s.to_i
+    @interface_metric_wired = xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').content.to_s.to_i
+    @interface_metric_wireless = xml_config.at_xpath('/configuration/networkinterfaces/wirelessethernet/metric').content.to_s.to_i
+    @interface_metric_bluetooth = xml_config.at_xpath('/configuration/networkinterfaces/bluetooth/metric').content.to_s.to_i
   end
 
   def send_processing_message(message_body, dev_id)
