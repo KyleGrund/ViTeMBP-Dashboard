@@ -223,22 +223,22 @@ class DevicesController < ApplicationController
     @sampling_frequency = @sampling_frequency.blank? ? 0.0 : @sampling_frequency.content.to_f
 
     # parse sensor names
-    @sensor_names = xml_config.xpath('/configuration/sensornames/name').map{ |elm| elm.content }
+    @sensor_names = xml_config.xpath('/configuration/sensornames/name')&.map{ |elm| elm.content }
 
     # parse sensor binding sites
-    @sensor_binding_sites = xml_config.xpath('/configuration/sensorbindingsites/site').map{ |elm| elm.content }
+    @sensor_binding_sites = xml_config.xpath('/configuration/sensorbindingsites/site')&.map{ |elm| elm.content }
     @sensor_binding_sites.push('None')
 
     # parse sensor bindings
     @sensor_bindings = {}
-    xml_config.xpath('/configuration/sensorbindings/sensorbinding').each{ |elm|
-      @sensor_bindings[elm.at_xpath('name').content] = elm.at_xpath('binding').content
+    xml_config.xpath('/configuration/sensorbindings/sensorbinding')&.each{ |elm|
+      @sensor_bindings[elm.at_xpath('name').content] = elm.at_xpath('binding')&.content
     }
 
     # parse interface metrics
-    @interface_metric_wired = xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric').content.to_s.to_i
-    @interface_metric_wireless = xml_config.at_xpath('/configuration/networkinterfaces/wirelessethernet/metric').content.to_s.to_i
-    @interface_metric_bluetooth = xml_config.at_xpath('/configuration/networkinterfaces/bluetooth/metric').content.to_s.to_i
+    @interface_metric_wired = xml_config.at_xpath('/configuration/networkinterfaces/wiredethernet/metric')&.content.to_s.to_i
+    @interface_metric_wireless = xml_config.at_xpath('/configuration/networkinterfaces/wirelessethernet/metric')&.content.to_s.to_i
+    @interface_metric_bluetooth = xml_config.at_xpath('/configuration/networkinterfaces/bluetooth/metric')&.content.to_s.to_i
   end
 
   def send_processing_message(message_body, dev_id)
