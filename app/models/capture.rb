@@ -23,7 +23,7 @@ class Capture < ApplicationRecord
   def self.get_capture_for_id(capture_id)
     # gets row in the captures table which match the capture uuid
     dynamodb = Aws::DynamoDB::Client.new
-    parseCapture dynamodb.get_item({
+    parse_capture dynamodb.get_item({
          table_name: 'CAPTURES',
          filter_expression: 'LOCATION = :LOCATION',
          expression_attribute_values: {
@@ -35,7 +35,7 @@ class Capture < ApplicationRecord
   def self.get_captures_for_system(system_uuid)
     # gets all rows in the captures table which match the system's uuid
     dynamodb = Aws::DynamoDB::Client.new
-    parseCaptures dynamodb.scan({
+    parse_captures dynamodb.scan({
          table_name: 'CAPTURES',
          filter_expression: 'SYSTEM_UUID = :SYSTEM_UUID',
          expression_attribute_values: {
@@ -50,11 +50,11 @@ class Capture < ApplicationRecord
     captures
   end
 
-  def parseCaptures(captures)
-    captures.map{ |elm| parseCapture elm }
+  def self.parse_captures(captures)
+    captures.map{ |elm| parse_capture elm }
   end
 
-  def parseCapture(capture)
+  def self.parse_capture(capture)
     {
         'CREATEDTIME' => DateTime.iso8601(capture['CREATEDTIME']),
         'FREQUENCY' => capture['FREQUENCY'],
