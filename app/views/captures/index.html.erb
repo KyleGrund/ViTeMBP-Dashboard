@@ -11,7 +11,7 @@
             <th>Device</th>
             <th>Edit Capture</th>
           </tr>
-          <% @captures.each { |capture| %>
+          <% @captures.sort_by { |c| c['CREATEDTIME'] }.reverse.each { |capture| %>
             <tr>
               <td><%= capture['CREATEDTIME'] %></td>
               <td><%= capture['FREQUENCY'] %></td>
