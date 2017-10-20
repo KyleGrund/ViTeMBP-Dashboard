@@ -12,6 +12,7 @@ class Capture < ApplicationRecord
   end
 
   def self.get_videos_for_capture(capture_id)
+    # gets all videos in the s3 directory for the device
     s3 = Aws::S3::Client.new
     vid_objs = s3.list_objects_v2(
         bucket: Rails.application.secrets.s3_output_bucket,
@@ -41,11 +42,6 @@ class Capture < ApplicationRecord
              ':SYSTEM_UUID' => system_uuid.to_s
          }
      }).items || []
-
-    # return just the device ids, not the rest of the data in the row
-    devices = Array.new()
-    rows.each { |cap| devices.push(cap) }
-    devices
   end
 
   def self.get_captures_for_user(uuid)
