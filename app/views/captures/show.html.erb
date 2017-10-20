@@ -10,7 +10,7 @@
               <th>System</th>
             </tr>
             <tr>
-              <td><%= @capture['CREATEDTIME'] %></td>
+              <td><%= @capture['CREATEDTIME'].strftime('%b %d %H:%M:%S') %></td>
               <td><%= @capture['FREQUENCY'] %></td>
               <td><%= link_to 'System', '/' + @id + '/devices/details/' + @capture['SYSTEM_UUID']  %></td>
             </tr>
