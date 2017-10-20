@@ -17,7 +17,7 @@ class Capture < ApplicationRecord
     vid_objs = s3.list_objects_v2(
         bucket: Rails.application.secrets.s3_output_bucket,
         prefix: capture_id + '/')
-    vid_objs['contents'].select { |elm| elm['size'].positive? }.map { |elm| { name: elm['key'], last_modified: elm['last_modified'] } }
+    vid_objs['contents'].select { |elm| elm['size'].positive? }.map { |elm| { name: elm['key'], last_modified: DateTime.iso8601(elm['last_modified']) } }
   end
 
   def self.get_capture_for_id(capture_id)
@@ -56,10 +56,10 @@ class Capture < ApplicationRecord
 
   def parseCapture(capture)
     {
-        'CREATEDTIME' => DateTime.iso8601(elm['CREATEDTIME']),
-        'FREQUENCY' => DateTime.iso8601(elm['FREQUENCY']),
-        'SYSTEM_UUID' => DateTime.iso8601(elm['SYSTEM_UUID']),
-        'LOCATION' => DateTime.iso8601(elm['LOCATION'])
+        'CREATEDTIME' => DateTime.iso8601(capture['CREATEDTIME']),
+        'FREQUENCY' => capture['FREQUENCY'],
+        'SYSTEM_UUID' => capture['SYSTEM_UUID'],
+        'LOCATION' => capture['LOCATION']
     }
   end
 end
