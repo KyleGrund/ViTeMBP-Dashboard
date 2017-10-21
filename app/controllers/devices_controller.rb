@@ -50,8 +50,9 @@ class DevicesController < ApplicationController
 
     # handle button presses
     if params[:commit] == 'Reboot'
-      send_processing_message('reboot', serial)
-      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'The device is rebooting.'
+      resp_loc = RemoteControl.sendMessageWithResponse 'reboot', serial
+      # send_processing_message('reboot', serial)
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'The device is rebooting. ' + resp_loc
       return
     end
 
