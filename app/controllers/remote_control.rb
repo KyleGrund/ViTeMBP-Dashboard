@@ -30,8 +30,8 @@ class RemoteControl
     data = read_data_entry location
 
     while data.blank?
-      if Time.now - start > timeout
-        return
+      if (Time.now - start) > timeout
+        return nil
       else
         sleep(0.1)
         data = read_data_entry location
