@@ -50,27 +50,35 @@ class DevicesController < ApplicationController
 
     # handle button presses
     if params[:commit] == 'Reboot'
-      resp_loc = RemoteControl.sendMessageWithResponse 'reboot', serial
-      # send_processing_message('reboot', serial)
-      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'The device is rebooting. ' + resp_loc
+      resp_loc = RemoteControl.send_message_with_response 'reboot', serial
+      response = RemoteControl.wait_for_response resp_loc
+      response = 'No response from remote.' unless response.blank?
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Reboot result: ' + response
       return
     end
 
     if params[:commit] == 'Power Off'
-      send_processing_message('shutdown', serial)
-      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'The device is shutting down.'
+      resp_loc = RemoteControl.send_message_with_response 'shutdown', serial
+      response = RemoteControl.wait_for_response resp_loc
+      response = 'No response from remote.' unless response.blank?
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Shutdown result: ' + response
       return
     end
 
     if params[:commit] == 'Start Capture'
-      send_processing_message('startcapture', serial)
-      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Start capture sent.'
+      resp_loc = RemoteControl.send_message_with_response 'startcapture', serial
+      response = RemoteControl.wait_for_response resp_loc
+      response = 'No response from remote.' unless response.blank?
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Start capture result: ' + response
       return
     end
 
     if params[:commit] == 'End Capture'
-      send_processing_message('endcapture', serial)
       redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'End capture sent.'
+      resp_loc = RemoteControl.send_message_with_response 'endcapture', serial
+      response = RemoteControl.wait_for_response resp_loc
+      response = 'No response from remote.' unless response.blank?
+      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'Start capture result: ' + response
       return
     end
 
