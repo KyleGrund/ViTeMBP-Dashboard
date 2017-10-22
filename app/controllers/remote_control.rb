@@ -15,12 +15,29 @@ class RemoteControl
 
   # sends a message to the remote system and returns a response
   def self.send_message_with_response(message_body, dev_id)
+    # create data locations for the command and response
     msg_uuid = SecureRandom.uuid
     resp_uuid = SecureRandom.uuid
 
+    # send the message
     write_data_entry msg_uuid, resp_uuid + ' ' + message_body
     send_sqs_message 'fromuuid ' + msg_uuid, dev_id
-    return resp_uuid
+
+    # wait for a response
+    resp = wait_for_response resp_uuid
+
+    # clean up database
+    if resp.blank?
+      # if the response is blank the message was not received in time so delete it
+      # there will be no response to delete
+      delete_data_entry msg_uuid
+    else
+      # the message was successful so the remote device will delete the message and
+      # as the receiver all we need to clean up is the response
+      delete_data_entry resp_uuid
+    end
+
+    resp
   end
 
   # gets a response from the location
@@ -65,6 +82,18 @@ class RemoteControl
     )
 
     resp.blank? ? nil : resp.item['VALUE']
+  end
+
+  # deletes a data entry to the database
+  def self.delete_data_entry(location)
+    # update the device entry with the current user's uuid so long as
+    # there isn't already another value bound to it.
+    dynamodb = Aws::DynamoDB::Client.new
+    dynamodb.delete_item(
+      table_name: 'DATA',
+      key: { 'ID' => location }
+    )
+    return
   end
 
   # writes a message to the device's message queue
