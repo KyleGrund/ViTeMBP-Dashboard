@@ -25,7 +25,7 @@ class RemoteControl
 
   # gets a response from the location
   def self.wait_for_response(location)
-    Time start = Time.now
+    start = Time.now
     timeout = 20;
     data = read_data_entry location
 
@@ -59,12 +59,12 @@ class RemoteControl
   def self.read_data_entry(location)
     # gets row in the data table which matches the uuid
     dynamodb = Aws::DynamoDB::Client.new
-    dynamodb.get_item(
+    resp = dynamodb.get_item(
       table_name: 'DATA',
-      filter_expression: 'ID = :ID',
-      expression_attribute_values: {
-          ':ID' => location
-    }).item['VALUE']
+      key: { 'ID' => location }
+    )
+
+    resp.blank? ? nil : resp.item['VALUE']
   end
 
   # writes a message to the device's message queue
