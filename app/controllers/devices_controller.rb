@@ -74,7 +74,6 @@ class DevicesController < ApplicationController
     end
 
     if params[:commit] == 'End Capture'
-      redirect_to '/' + @user.id.to_s + '/devices/details/' + serial, notice: 'End capture sent.'
       resp_loc = RemoteControl.send_message_with_response 'endcapture', serial
       response = RemoteControl.wait_for_response resp_loc
       response = 'No response from remote.' unless response.blank?
