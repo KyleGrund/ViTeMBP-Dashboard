@@ -1,4 +1,6 @@
 
+require 'time'
+
 class RemoteControl
   # sends a message to the remote system
   def self.send_message(message_body, dev_id)
@@ -38,9 +40,8 @@ class RemoteControl
     data
   end
 
-  private
   # writes a data entry to the database
-  def write_data_entry(location, value)
+  def self.write_data_entry(location, value)
     # update the device entry with the current user's uuid so long as
     # there isn't already another value bound to it.
     dynamodb = Aws::DynamoDB::Client.new
@@ -55,7 +56,7 @@ class RemoteControl
   end
 
   # reads a data entry from the database
-  def read_data_entry(location)
+  def self.read_data_entry(location)
     # gets row in the data table which matches the uuid
     dynamodb = Aws::DynamoDB::Client.new
     dynamodb.get_item(
@@ -67,7 +68,7 @@ class RemoteControl
   end
 
   # writes a message to the device's message queue
-  def send_sqs_message(message_body, dev_id)
+  def self.send_sqs_message(message_body, dev_id)
     queue_url = Rails.application.secrets.sqs_dev_queue_url + dev_id
     sqs = Aws::SQS::Client.new
     sqs.send_message(
