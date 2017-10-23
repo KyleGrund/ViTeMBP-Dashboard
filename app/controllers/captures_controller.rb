@@ -67,8 +67,7 @@ class CapturesController < ApplicationController
     # delete capture
     response = ServicesControl.send_message_with_response 'delete ' + @capture_id
 
-    # file successfully uploaded, send processing request message
-    process_file(@capture, s3_key)
+    # redirect to results
     redirect_to '/' + @id + '/captures', :notice => 'Your request completed with the result: ' + response
   end
 
