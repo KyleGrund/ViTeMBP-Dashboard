@@ -52,6 +52,22 @@ class CapturesController < ApplicationController
     end
   end
 
+  def delete
+    @id = @user.id.to_s
+    @capture_id = params[:capture_id]
+    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap['LOCATION'] == @capture_id }.first
+
+    # make sure device ID is valid
+    if @capture.nil?
+      # if capture not found in users' captures return to root with an error
+      redirect_to root_url, :alert => 'Invalid capture location.'
+      return
+    end
+
+    # delete capture
+
+  end
+
   private
 
   def process_file(capture, filename)
@@ -72,7 +88,8 @@ class CapturesController < ApplicationController
 
   def build_ul_policy
     # build the time string to expire the policy 12 hours past the current time
-    # must provide sufficient time for long uploads of large video files over slower connections
+    # must provide sufficient time for user to start the upload otherwise they
+    # get an unhelpful error message
     time = (Time.now.utc + 12*60*60).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     policy =

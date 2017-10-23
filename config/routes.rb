@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/:id/devices/adddevice' => 'devices#adddevice'
   get '/:id/captures' => 'captures#index'
   get '/:id/captures/show/:capture_id' => 'captures#show'
+  get '/:id/captures/delete/:capture_id' => 'captures#delete'
   get '/:id/captures/uploadsuccess/:capture_id' => 'captures#uploadsuccess'
   root to: 'visitors#index'
   get '/auth/:provider/callback' => 'sessions#create'

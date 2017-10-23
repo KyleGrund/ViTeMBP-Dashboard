@@ -44,7 +44,7 @@
         </tr>
         <% @videos.each { |video| %>
             <tr>
-              <td><%= video[:last_modified] %></td>
+              <td><%= video[:last_modified].strftime('%b %d %H:%M:%S') %></td>
               <td><%= link_to video[:name][37..-1], @video_prefix + video[:name] %></td>
             </tr>
         <% } %>

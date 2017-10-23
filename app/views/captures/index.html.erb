@@ -1,3 +1,4 @@
+<%= form_tag('/' + @id + '/captures/update/' + @device_id, method: 'post') do %>
 <h1>Captures</h1>
 <h2>Your Captures</h2>
 <div class="container">
@@ -9,6 +10,7 @@
             <th>Created</th>
             <th>Sampling Rate</th>
             <th>Device</th>
+            <th>Control</th>
             <th>Edit Capture</th>
           </tr>
           <% @captures.sort_by { |c| c['CREATEDTIME'] }.reverse.each { |capture| %>
@@ -16,6 +18,7 @@
               <td><%= capture['CREATEDTIME'].strftime('%b %d %H:%M:%S') %></td>
               <td><%= capture['FREQUENCY'] %></td>
               <td><%= link_to 'System', '/' + @id + '/devices/details/' + capture['SYSTEM_UUID'] %></td>
+              <td><%= link_to 'Delete', '/' + @id + '/captures/delete/' + capture['LOCATION'] %></td>
               <td><%= link_to 'View Capture', '/' + @id + '/captures/show/' + capture['LOCATION'] %></td>
             </tr>
           <% } %>
@@ -26,3 +29,4 @@
 </div>
 <h2>Device Management</h2>
 <%= link_to 'Register a new device.', '/' + @id + '/devices/register' %>
+<% end %>
