@@ -66,6 +66,7 @@ class CapturesController < ApplicationController
 
     # delete capture
     response = ServicesControl.send_message_with_response 'delete ' + @capture_id
+    response = 'Timed out waiting for response.' if response.blank?
 
     # redirect to results
     redirect_to '/' + @id + '/captures', :notice => 'Your request completed with the result: ' + response
