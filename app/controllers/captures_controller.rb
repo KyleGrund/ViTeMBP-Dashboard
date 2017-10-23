@@ -65,7 +65,7 @@ class CapturesController < ApplicationController
     end
 
     # delete capture
-
+    ServicesControl.send_message_with_response 'delete ' + @capture_id
   end
 
   private
