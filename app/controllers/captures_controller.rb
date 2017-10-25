@@ -33,6 +33,9 @@ class CapturesController < ApplicationController
     @video_prefix = Rails.application.secrets.s3_output_bucket_url_base
 
     @capture_details = ServicesControl.send_message_with_response 'CAPTURESUMMARY ' + @capture['LOCATION']
+
+    # get capture data
+    @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION']
   end
 
   def uploadsuccess
