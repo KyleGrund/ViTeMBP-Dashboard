@@ -11,7 +11,7 @@ class CaptureslinegraphController < ApplicationController
     redirect_to root_url, :alert => 'Invalid capture location.' if @capture.nil?
 
     # get capture data
-    @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION']
+    @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION'] || '[]'
 
     # just return the data from the response instead of rendering a view
     respond_to do |format|
