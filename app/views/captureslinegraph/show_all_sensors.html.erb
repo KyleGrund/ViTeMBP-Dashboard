@@ -6,7 +6,7 @@
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-          var data = google.visualization.arrayToDataTable(<%= @sensor_data_avgs %>);
+          var data = google.visualization.arrayToDataTable(<%= @sensor_data_avgs.html_safe %>);
 
           var options = {
               title: 'Sensor Data',
