@@ -7,6 +7,9 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => 'reload' %>
     <%= csrf_meta_tags %>
+    <% if content_for? :header_additions %>
+      <%= yield :header_additions %>
+    <% end %>
   </head>
   <body>
     <header>
