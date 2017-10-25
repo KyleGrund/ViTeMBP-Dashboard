@@ -1,4 +1,4 @@
-class CapturesLineGraphController < ApplicationController
+class CaptureslinegraphController < ApplicationController
   def show_all_sensors
     @id = @user.id.to_s
     @capture_id = params[:capture_id]
