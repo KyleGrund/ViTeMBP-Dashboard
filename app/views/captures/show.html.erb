@@ -23,8 +23,8 @@
 <table class="table">
   <tbody>
   <tr>
-    <td><%= link_to 'Export raw sensor data.', '/' + @id + '/captures/exportraw/' + capture['LOCATION'] %></td>
-    <td><%= link_to 'Export calibrated sensor data.', '/' + @id + '/captures/exportcal/' + capture['LOCATION'] %></td>
+    <td><%= link_to 'Export raw data.', '/' + @id + '/captures/exportraw/' + @capture['LOCATION'] %></td>
+    <td><%= link_to 'Export calibrated data.', '/' + @id + '/captures/exportcal/' + @capture['LOCATION'] %></td>
   </tr>
   </tbody>
 </table>
