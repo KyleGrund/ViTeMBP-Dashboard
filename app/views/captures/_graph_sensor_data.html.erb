@@ -7,8 +7,8 @@
       google.charts.setOnLoadCallback(drawSensorDataChart);
 
       function drawSensorDataChart() {
-          var avgs = $.getJSON(<%= '''/' + @id + '/captures_line_graph/show_all_sensors/' + capture['LOCATION'] + '''' %>, function(data) {
-              var data = google.visualization.arrayToDataTable(data);
+
+              var data = google.visualization.arrayToDataTable(<%= @sensor_data_avgs %>);
 
               var options = {
                   title: 'Sensor Data',
@@ -19,7 +19,6 @@
               var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
 
               chart.draw(data, options);
-          });
       }
   </script>
 <% end %>

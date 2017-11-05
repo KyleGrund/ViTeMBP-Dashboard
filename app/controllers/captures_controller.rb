@@ -35,7 +35,7 @@ class CapturesController < ApplicationController
     @capture_details = ServicesControl.send_message_with_response 'CAPTURESUMMARY ' + @capture['LOCATION']
 
     # get capture data
-    # @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION']
+    @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION']
   end
 
   def uploadsuccess
