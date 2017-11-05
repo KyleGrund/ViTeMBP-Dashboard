@@ -35,7 +35,7 @@ class CapturesController < ApplicationController
     @capture_details = ServicesControl.send_message_with_response 'CAPTURESUMMARY ' + @capture['LOCATION']
 
     # get capture data
-    @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION']
+    # @sensor_data_avgs = ServicesControl.send_message_with_response 'CAPTUREGRAPHDATA ' + @capture['LOCATION']
   end
 
   def uploadsuccess
@@ -71,6 +71,48 @@ class CapturesController < ApplicationController
 
     # delete capture
     response = ServicesControl.send_message_with_response 'delete ' + @capture_id
+    response = 'Timed out waiting for response.' if response.blank?
+
+    # redirect to results
+    redirect_to '/' + @id + '/captures', :notice => 'Your request completed with the result: ' + response
+  end
+
+  def exportraw
+    @id = @user.id.to_s
+    @capture_id = params[:capture_id]
+    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap['LOCATION'] == @capture_id }.first
+    output_bucket = Rails.application.secrets.s3_output_bucket
+
+    # make sure device ID is valid
+    if @capture.nil?
+      # if capture not found in users' captures return to root with an error
+      redirect_to root_url, :alert => 'Invalid capture location.'
+      return
+    end
+
+    # delete capture
+    response = ServicesControl.send_message_with_response 'exportraw ' + @capture_id + ' ' + output_bucket
+    response = 'Timed out waiting for response.' if response.blank?
+
+    # redirect to results
+    redirect_to '/' + @id + '/captures', :notice => 'Your request completed with the result: ' + response
+  end
+
+  def exportcal
+    @id = @user.id.to_s
+    @capture_id = params[:capture_id]
+    @capture = Capture.get_captures_for_user(@user.uid).select { |cap| cap['LOCATION'] == @capture_id }.first
+    output_bucket = Rails.application.secrets.s3_output_bucket
+
+    # make sure device ID is valid
+    if @capture.nil?
+      # if capture not found in users' captures return to root with an error
+      redirect_to root_url, :alert => 'Invalid capture location.'
+      return
+    end
+
+    # delete capture
+    response = ServicesControl.send_message_with_response 'exportcal ' + @capture_id + ' ' + output_bucket
     response = 'Timed out waiting for response.' if response.blank?
 
     # redirect to results

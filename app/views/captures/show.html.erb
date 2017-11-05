@@ -19,6 +19,15 @@
     </div>
   </div>
 </div>
+<h2>Export Data</h2>
+<table class="table">
+  <tbody>
+  <tr>
+    <td><%= link_to 'Export raw sensor data.', '/' + @id + '/captures/exportraw/' + capture['LOCATION'] %></td>
+    <td><%= link_to 'Export calibrated sensor data.', '/' + @id + '/captures/exportcal/' + capture['LOCATION'] %></td>
+  </tr>
+  </tbody>
+</table>
 <h2>Upload Video</h2>
 <form action="https://<%= @s3_ul_bucket %>.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
   <input type="hidden" name="key" value="<%= @capture['LOCATION'] %>/${filename}">

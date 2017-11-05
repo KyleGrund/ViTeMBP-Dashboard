@@ -1,22 +1,25 @@
 
 <% content_for :header_additions do %>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript">
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawSensorDataChart);
 
       function drawSensorDataChart() {
-          var data = google.visualization.arrayToDataTable(<%= @sensor_data_avgs.html_safe %>);
+          var avgs = $.getJSON(<%= '''/' + @id + '/captures_line_graph/show_all_sensors/' + capture['LOCATION'] + '''' %>, function(data) {
+              var data = google.visualization.arrayToDataTable(data);
 
-          var options = {
-              title: 'Sensor Data',
-              curveType: 'function',
-              legend: { position: 'bottom' }
-          };
+              var options = {
+                  title: 'Sensor Data',
+                  curveType: 'function',
+                  legend: {position: 'bottom'}
+              };
 
-          var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
+              var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
 
-          chart.draw(data, options);
+              chart.draw(data, options);
+          });
       }
   </script>
 <% end %>

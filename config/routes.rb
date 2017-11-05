@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get '/:id/captures' => 'captures#index'
   get '/:id/captures/show/:capture_id' => 'captures#show'
   get '/:id/captures/delete/:capture_id' => 'captures#delete'
+  get '/:id/captures/exportraw/:capture_id' => 'captures#exportraw'
+  get '/:id/captures/exportcal/:capture_id' => 'captures#exportcal'
   get '/:id/captures/uploadsuccess/:capture_id' => 'captures#uploadsuccess'
   get '/:id/captures_line_graph/show_all_sensors/:capture_id' => 'captureslinegraph#show_all_sensors'
   root to: 'visitors#index'
