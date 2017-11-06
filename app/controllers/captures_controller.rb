@@ -116,7 +116,7 @@ class CapturesController < ApplicationController
     response = 'Timed out waiting for response.' if response.blank?
 
     # redirect to results
-    redirect_to '/' + @id + '/captures', :notice => 'Your request completed with the result: ' + response
+    redirect_to '/' + @id + '/captures/show/' + @capture['LOCATION'], :notice => 'Your request completed with the result: ' + response
   end
 
   private
