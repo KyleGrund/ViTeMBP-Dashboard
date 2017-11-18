@@ -3,11 +3,17 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawSensorDataChart);
+        google.charts.setOnLoadCallback(loadContent);
+
+        function loadContent() {
+            drawSensorDataChart();
+            updateDetails();
+        }
 
         function drawSensorDataChart() {
             var id = "<%= @id %>";
             var capture = "<%= @capture_id %>";
+
             $.getJSON('/' + id + '/captures_line_graph/show_all_sensors/' + capture, function(rawData){
                 var data = new google.visualization.arrayToDataTable(rawData);
 
@@ -21,13 +27,54 @@
 
                 chart.draw(data, options);
             });
+        }
+
+        function updateDetails() {
+            var id = "<%= @id %>";
+            var capture = "<%= @capture_id %>";
 
             $.getJSON('/' + id + '/capture_summary/get_summary/' + capture, function(details){
-                document.getElementById('capture_details').innerHTML = details;
+                document.getElementById('CreatedTime').innerHTML = details.createdTime;
+                document.getElementById('Duration').innerHTML = details.captureDuration;
+                document.getElementById('SampleRate').innerHTML = details.sampleFrequency;
+                document.getElementById('SampleCount').innerHTML = details.sampleCount;
+                document.getElementById('Sensors').innerHTML = details.sensorNames;
+                document.getElementById('IsComplete').innerHTML = details.isComplete;
+
+		if (!details.isComplete) {
+                    setTimeout(updateDetails, 3000);
+                    setTimeout(drawSensorDataChart, 3000);
+                }
             });
         }
     </script>
 <% end %>
-<div id='capture_details'>Loading details...</div>
+<h2>Details</h2>
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <table class="table">
+        <tbody>
+        <tr>
+          <th>Created</th>
+          <th>Duration</th>
+          <th>Sample Rate</th>
+          <th>Sample Count</th>
+          <th>Sensors</th>
+          <th>Is Complete</th>
+        </tr>
+        <tr>
+          <td><div id='CreatedTime'>Loading...</div></td>
+          <td><div id='Duration'>Loading...</div></td>
+          <td><div id='SampleRate'>Loading...</div></td>
+          <td><div id='SampleCount'>Loading...</div></td>
+          <td><div id='Sensors'>Loading...</div></td>
+          <td><div id='IsComplete'>Loading...</div></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 <h2>Data Graph</h2>
 <div id='sensor_data_curve_chart' style="width: 100%; height: 500px">Loading chart...</div>
