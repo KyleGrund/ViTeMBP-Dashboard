@@ -31,8 +31,6 @@ class CapturesController < ApplicationController
     # build list of processed videos
     @videos = Capture.get_videos_for_capture(@capture_id)
     @video_prefix = Rails.application.secrets.s3_output_bucket_url_base
-
-    @capture_details = ServicesControl.send_message_with_response 'CAPTURESUMMARY ' + @capture['LOCATION']
   end
 
   def uploadsuccess
