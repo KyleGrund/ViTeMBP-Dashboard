@@ -1,4 +1,7 @@
 class CapturesummaryController < ApplicationController
+  before_action :authenticate_user!
+  before_action :correct_user?
+
   def get_summary
     @id = @user.id.to_s
     @capture_id = params[:capture_id]
