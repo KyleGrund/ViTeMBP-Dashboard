@@ -1,25 +1,25 @@
-
 <% content_for :header_additions do %>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawSensorDataChart);
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawSensorDataChart);
 
-      function drawSensorDataChart() {
+        function drawSensorDataChart() {
+            var graphData = $.getJSON('/1/captures_line_graph/show_all_sensors/d202cf11-a3c7-4b32-9979-f3aaa25ff4f9', function(rawData){
+                var data = new google.visualization.arrayToDataTable(rawData);
+                console.log(data);
+                var options = {
+                    title: 'Sensor Data',
+                    curveType: 'function',
+                    legend: {position: 'bottom'}
+                };
 
-              var data = google.visualization.arrayToDataTable(<%= @sensor_data_avgs %>);
+                var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
 
-              var options = {
-                  title: 'Sensor Data',
-                  curveType: 'function',
-                  legend: {position: 'bottom'}
-              };
-
-              var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
-
-              chart.draw(data, options);
-      }
-  </script>
+                chart.draw(data, options);
+            });
+        }
+    </script>
 <% end %>
 <div id='sensor_data_curve_chart' style="width: 900px; height: 500px"></div>
