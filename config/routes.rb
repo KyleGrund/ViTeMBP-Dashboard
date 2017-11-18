@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-
-  get ''
-
-  resources :users
+ resources :users
   get '/:id/devices/' => 'devices#show'
   get '/:id/devices/register' => 'devices#register'
   get '/:id/devices/details/:devid' => 'devices#details'
