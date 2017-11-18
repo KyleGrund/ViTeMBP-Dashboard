@@ -6,9 +6,9 @@
         google.charts.setOnLoadCallback(drawSensorDataChart);
 
         function drawSensorDataChart() {
-            var graphData = $.getJSON('/1/captures_line_graph/show_all_sensors/d202cf11-a3c7-4b32-9979-f3aaa25ff4f9', function(rawData){
+            $.getJSON('/1/captures_line_graph/show_all_sensors/d202cf11-a3c7-4b32-9979-f3aaa25ff4f9', function(rawData){
                 var data = new google.visualization.arrayToDataTable(rawData);
-                console.log(data);
+
                 var options = {
                     title: 'Sensor Data',
                     curveType: 'function',
@@ -19,7 +19,13 @@
 
                 chart.draw(data, options);
             });
+
+            $.getJSON('/1/capture_summary/get_summary/d202cf11-a3c7-4b32-9979-f3aaa25ff4f9', function(rawData){
+
+                document.getElementById('capture_details').innerHTML = details;
+            });
         }
     </script>
 <% end %>
+<div id='capture_details'></div>
 <div id='sensor_data_curve_chart' style="width: 900px; height: 500px"></div>

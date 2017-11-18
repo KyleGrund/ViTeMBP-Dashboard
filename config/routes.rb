@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get ''
+
   resources :users
   get '/:id/devices/' => 'devices#show'
   get '/:id/devices/register' => 'devices#register'
@@ -13,6 +15,7 @@ Rails.application.routes.draw do
   get '/:id/captures/exportcal/:capture_id' => 'captures#exportcal'
   get '/:id/captures/uploadsuccess/:capture_id' => 'captures#uploadsuccess'
   get '/:id/captures_line_graph/show_all_sensors/:capture_id' => 'captureslinegraph#show_all_sensors'
+  get '/:id/capture_summary/get_summary/:capture_id' => 'capturesummary#get_summary'
   root to: 'visitors#index'
   get '/auth/:provider/callback' => 'sessions#create'
   get '/signin' => 'sessions#new', :as => :signin
