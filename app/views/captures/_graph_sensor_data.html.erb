@@ -6,7 +6,9 @@
         google.charts.setOnLoadCallback(drawSensorDataChart);
 
         function drawSensorDataChart() {
-            $.getJSON('/1/captures_line_graph/show_all_sensors/d202cf11-a3c7-4b32-9979-f3aaa25ff4f9', function(rawData){
+            var id = "<%= @id %>";
+            var capture = "<%= @capture_id %>";
+            $.getJSON('/' + id + '/captures_line_graph/show_all_sensors/' + capture, function(rawData){
                 var data = new google.visualization.arrayToDataTable(rawData);
 
                 var options = {
@@ -20,8 +22,7 @@
                 chart.draw(data, options);
             });
 
-            $.getJSON('/1/capture_summary/get_summary/d202cf11-a3c7-4b32-9979-f3aaa25ff4f9', function(details){
-
+            $.getJSON('/' + id + '/capture_summary/get_summary/' + capture, function(details){
                 document.getElementById('capture_details').innerHTML = details;
             });
         }
