@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/:id/devices/details/:devid' => 'devices#details'
   match '/:id/devices/update_details/:devid' => 'devices#update_details', :via => :post
   get '/:id/devices/adddevice' => 'devices#adddevice'
+  get '/:id/devicesensors/list/:devid' => 'devicesensors#list'
   get '/:id/captures' => 'captures#index'
   get '/:id/captures/show/:capture_id' => 'captures#show'
   get '/:id/captures/delete/:capture_id' => 'captures#delete'
