@@ -33,9 +33,17 @@ class SensorcalibrationController < ApplicationController
 
     # send start command
     start_cal_resp = RemoteControl.send_message_with_response 'CALSENSOR ' + @sensor_name, @dev_serial
+    if start_cal_resp.blank?
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Could not communicate with remote system. Check that it is online.'
+      return
+    end
 
     # check cal status
     cal_status = JSON.parse(RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial)
+    if cal_status.blank?
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Could not communicate with remote system. Check that it is online.'
+      return
+    end
 
     # check that the calibration started
     if !cal_status['isCalibrating']
@@ -61,9 +69,17 @@ class SensorcalibrationController < ApplicationController
 
     # send start command
     next_step_resp = RemoteControl.send_message_with_response 'CALNEXTSTEP', @dev_serial
+    if next_step_resp.blank?
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Could not communicate with remote system. Check that it is online.'
+      return
+    end
 
     # check cal status
     cal_status = JSON.parse(RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial)
+    if cal_status.blank?
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Could not communicate with remote system. Check that it is online.'
+      return
+    end
 
     # check that the calibration started
     if !cal_status['isCalibrating']
