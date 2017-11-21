@@ -1,2 +1,6 @@
-<h1>Sensorcalibration#next_step</h1>
-<p>Find me in app/views/sensorcalibration/next_step.html.erb</p>
+<%= form_tag('/' + @id + '/sensor_calibration/' + @device_id + '/next', method: 'post') do %>
+    <h1>Sensor Calibration</h1>
+    <h2><%= @sensor_name %> calibration in progress.</h2>
+    <p><%= @user_prompt %></p>
+    <%= submit_tag 'Next', :name => 'next' %>
+<% end %>

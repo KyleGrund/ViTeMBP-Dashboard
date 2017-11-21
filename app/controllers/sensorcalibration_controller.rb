@@ -37,12 +37,41 @@ class SensorcalibrationController < ApplicationController
     # check cal status
     cal_status = JSON.parse(RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial)
 
-    unless cal_status["isCalibrating"] == 'true'
-      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + "/list", alert: 'Calibration not started, device response: ' + start_cal_resp
+    # check that the calibration started
+    if !cal_status['isCalibrating'] == 'true'
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Calibration not started, device response: ' + start_cal_resp
     end
+
+    # the user prompt instructing the current calibration step procedure
+    @user_prompt = cal_status['stepPrompt']
   end
 
   def next_step
+    @id = @user.id.to_s
+
+    @dev_serial = params[:devid]
+    @sensor_name = params[:sensor]
+    device = Device.get_device_config(@dev_serial,@user.uid)
+
+    # make sure device ID is valid
+    if device.nil?
+      redirect_to '/' + @id + '/devices', alert: 'Unknown device.'
+      return
+    end
+
+    # send start command
+    next_step_resp = RemoteControl.send_message_with_response 'CALNEXTSTEP', @dev_serial
+
+    # check cal status
+    cal_status = JSON.parse(RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial)
+
+    # check that the calibration started
+    if !cal_status['isCalibrating'] == 'true'
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', notice: 'Calibration completed: ' + next_step_resp
+    end
+
+    # the user prompt instructing the current calibration step procedure
+    @user_prompt = cal_status['stepPrompt']
   end
 
   def status
