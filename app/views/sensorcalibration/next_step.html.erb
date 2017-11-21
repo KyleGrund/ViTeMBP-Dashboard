@@ -1,4 +1,4 @@
-<%= form_tag('/' + @id + '/sensor_calibration/' + @dev_serial + '/next_step', method: 'post') do %>
+<%= form_tag('/' + @id + '/sensor_calibration/' + @dev_serial + '/next_step', method: 'get') do %>
     <h1>Sensor Calibration</h1>
     <h2><%= @sensor_name %> calibration in progress.</h2>
     <p><%= @user_prompt %></p>
