@@ -37,7 +37,7 @@ class SensorcalibrationController < ApplicationController
     end
 
     # get list of sensors
-    cal_status = RemoteControl.send_message_with_response 'CALSTATUS', serial
+    cal_status = RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial
 
     # just return the data from the response instead of rendering a view
     respond_to do |format|

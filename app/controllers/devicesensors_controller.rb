@@ -15,7 +15,7 @@ class DevicesensorsController < ApplicationController
     end
 
     # get list of sensors
-    sensors_list = RemoteControl.send_message_with_response 'LISTSENSORS', serial
+    sensors_list = RemoteControl.send_message_with_response 'LISTSENSORS', @dev_serial
 
     # just return the data from the response instead of rendering a view
     respond_to do |format|
