@@ -17,7 +17,7 @@ class SensorcalibrationController < ApplicationController
     # get list of sensors
     sensor_list = RemoteControl.send_message_with_response('LISTSENSORS', @dev_id)
     if sensor_list.blank?
-      redirect_to '/' + @id + '/devices/details/' + @dev_serial, alert: 'Could not communicate with remote system. Check that it is online.'
+      redirect_to '/' + @id + '/devices/details/' + @dev_id, alert: 'Could not communicate with remote system. Check that it is online.'
       return
     end
 
