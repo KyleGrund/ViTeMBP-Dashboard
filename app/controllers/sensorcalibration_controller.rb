@@ -15,7 +15,14 @@ class SensorcalibrationController < ApplicationController
     end
 
     # get list of sensors
-    @sensors = JSON.parse(RemoteControl.send_message_with_response('LISTSENSORS', @dev_id))
+    sensor_list = RemoteControl.send_message_with_response('LISTSENSORS', @dev_id)
+    if sensor_list.blank?
+      redirect_to '/' + @id + '/devices/details/' + @dev_serial, alert: 'Could not communicate with remote system. Check that it is online.'
+      return
+    end
+
+    # parse sensor list for view
+    @sensors = JSON.parse(sensor_list)
   end
 
   def start
