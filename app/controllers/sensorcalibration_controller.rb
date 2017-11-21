@@ -40,6 +40,7 @@ class SensorcalibrationController < ApplicationController
     # check that the calibration started
     if !cal_status['isCalibrating'] == 'true'
       redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Calibration not started, device response: ' + start_cal_resp
+      return
     end
 
     # the user prompt instructing the current calibration step procedure
@@ -67,6 +68,7 @@ class SensorcalibrationController < ApplicationController
     # check that the calibration started
     if !cal_status['isCalibrating'] == 'true'
       redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', notice: 'Calibration completed: ' + next_step_resp
+      return
     end
 
     # get sensor name and user prompt instructing the current calibration step procedure
