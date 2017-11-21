@@ -23,4 +23,25 @@ class SensorcalibrationController < ApplicationController
 
   def next_step
   end
+
+  def status
+    @id = @user.id.to_s
+
+    @dev_serial = params[:devid]
+    device = Device.get_device_config(@dev_serial,@user.uid)
+
+    # make sure device ID is valid
+    if device.nil?
+      redirect_to '/' + @id + '/devices', alert: 'Unknown device.'
+      return
+    end
+
+    # get list of sensors
+    cal_status = RemoteControl.send_message_with_response 'CALSTATUS', serial
+
+    # just return the data from the response instead of rendering a view
+    respond_to do |format|
+      format.html { render :plain => cal_status }
+    end
+  end
 end

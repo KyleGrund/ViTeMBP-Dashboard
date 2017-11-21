@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   get '/:id/sensor_calibration/:devid/list' => 'sensorcalibration#list'
   get '/:id/sensor_calibration/:devid/start/:sensor' => 'sensorcalibration#start'
   get '/:id/sensor_calibration/:devid/next_step' => 'sensorcalibration#next_step'
+  get '/:id/sensor_calibration/:devid/status' => 'sensorcalibration#status'
 end
