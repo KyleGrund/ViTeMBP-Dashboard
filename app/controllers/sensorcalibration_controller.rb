@@ -5,8 +5,8 @@ class SensorcalibrationController < ApplicationController
   def list
     @id = @user.id.to_s
 
-    serial = params[:devid]
-    device = Device.get_device_config(serial,@user.uid)
+    @dev_id = params[:devid]
+    device = Device.get_device_config(@dev_id,@user.uid)
 
     # make sure device ID is valid
     if device.nil?
