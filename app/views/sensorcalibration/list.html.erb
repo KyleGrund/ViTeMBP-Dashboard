@@ -1,0 +1,16 @@
+<h1>Sensor Calibration</h1>
+<p>Select a sensor to calibrate:</p>
+<table>
+  <tbody>
+  <tr>
+    <% @sensors.each {|sensor| %>
+      <tr>
+        <th>Sensors</th>
+      </tr>
+      <tr>
+        <td><%= link_to "Run calibration on " + sensor + " sensor.", '/' + @id + '/sensor_calibration/' + @dev_serial + "/start/" + sensor %></td>
+      </tr>
+  <% } %>
+  </tr>
+  </tbody>
+</table>

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
- resources :users
+  resources :users
   get '/:id/devices/' => 'devices#show'
   get '/:id/devices/register' => 'devices#register'
   get '/:id/devices/details/:devid' => 'devices#details'
@@ -19,4 +19,7 @@ Rails.application.routes.draw do
   get '/signin' => 'sessions#new', :as => :signin
   get '/signout' => 'sessions#destroy', :as => :signout
   get '/auth/failure' => 'sessions#failure'
+  get '/:id/sensor_calibration/:devid/list' => 'sensorcalibration#list'
+  get '/:id/sensor_calibration/:devid/start/:sensor' => 'sensorcalibration#start'
+  get '/:id/sensor_calibration/:devid/next_step' => 'sensorcalibration#next_step'
 end

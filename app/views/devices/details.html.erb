@@ -45,6 +45,14 @@
       <%= submit_tag 'End Capture' %>
     </td>
   </tr>
+  <tr>
+    <td>
+      Calibration
+    </td>
+    <td>
+      <%= link_to "Go to sensor calibration page.", '/' + @id + '/sensor_calibration/' + @device_id + "/list" %>
+    </td>
+  </tr>
   </tbody>
 </table>
 <h3>Capture Configuration</h3>
