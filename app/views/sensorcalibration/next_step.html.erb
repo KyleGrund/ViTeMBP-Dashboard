@@ -1,6 +1,6 @@
-<%= form_tag('/' + @id + '/sensor_calibration/' + @device_id + '/next', method: 'post') do %>
+<%= form_tag('/' + @id + '/sensor_calibration/' + @device_id + '/next_step', method: 'post') do %>
     <h1>Sensor Calibration</h1>
     <h2><%= @sensor_name %> calibration in progress.</h2>
     <p><%= @user_prompt %></p>
-    <%= submit_tag 'Next', :name => 'next' %>
+    <%= submit_tag 'Next Step', :name => 'next_step' %>
 <% end %>

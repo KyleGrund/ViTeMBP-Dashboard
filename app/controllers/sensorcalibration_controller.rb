@@ -50,7 +50,6 @@ class SensorcalibrationController < ApplicationController
     @id = @user.id.to_s
 
     @dev_serial = params[:devid]
-    @sensor_name = params[:sensor]
     device = Device.get_device_config(@dev_serial,@user.uid)
 
     # make sure device ID is valid
@@ -70,7 +69,8 @@ class SensorcalibrationController < ApplicationController
       redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', notice: 'Calibration completed: ' + next_step_resp
     end
 
-    # the user prompt instructing the current calibration step procedure
+    # get sensor name and user prompt instructing the current calibration step procedure
+    @sensor_name = cal_status['sensorName']
     @user_prompt = cal_status['stepPrompt']
   end
 
