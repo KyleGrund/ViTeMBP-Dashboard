@@ -15,7 +15,7 @@ class SensorcalibrationController < ApplicationController
     end
 
     # get list of sensors
-    @sensors = JSON.parse(RemoteControl.send_message_with_response 'LISTSENSORS', serial)
+    @sensors = JSON.parse(RemoteControl.send_message_with_response('LISTSENSORS', @dev_id))
   end
 
   def start
