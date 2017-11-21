@@ -38,7 +38,7 @@ class SensorcalibrationController < ApplicationController
     cal_status = JSON.parse(RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial)
 
     # check that the calibration started
-    if cal_status['isCalibrating']
+    if !cal_status['isCalibrating']
       redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + '/list', alert: 'Calibration not started, device response: ' + start_cal_resp
       return
     end
