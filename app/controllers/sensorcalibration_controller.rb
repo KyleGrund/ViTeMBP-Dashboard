@@ -19,6 +19,27 @@ class SensorcalibrationController < ApplicationController
   end
 
   def start
+    @id = @user.id.to_s
+
+    @dev_serial = params[:devid]
+    @sensor_name = params[:sensor]
+    device = Device.get_device_config(@dev_serial,@user.uid)
+
+    # make sure device ID is valid
+    if device.nil?
+      redirect_to '/' + @id + '/devices', alert: 'Unknown device.'
+      return
+    end
+
+    # send start command
+    start_cal_resp = RemoteControl.send_message_with_response 'CALSENSOR ' + @sensor_name, @dev_serial
+
+    # check cal status
+    cal_status = JSON.parse(RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial)
+
+    unless cal_status.isCalibrating
+      redirect_to '/' + @id + '/sensor_calibration/' + @dev_serial + "/list", alert: 'Calibration not started, device response: ' + start_cal_resp
+    end
   end
 
   def next_step
@@ -36,7 +57,7 @@ class SensorcalibrationController < ApplicationController
       return
     end
 
-    # get list of sensors
+    # get sensor calibration status
     cal_status = RemoteControl.send_message_with_response 'CALSTATUS', @dev_serial
 
     # just return the data from the response instead of rendering a view
