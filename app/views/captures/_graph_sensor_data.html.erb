@@ -2,7 +2,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
-        function updateDetails() {
+        function updateDetails(chart) {
             var id = "<%= @id %>";
             var capture = "<%= @capture_id %>";
 
@@ -23,18 +23,22 @@
                         legend: {position: 'bottom'}
                     };
 
-                    var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
                     chart.draw(data, options);
 
                     if (!details.isComplete) {
-                        setTimeout(updateDetails, 3000);
+                        setTimeout(function() { updateDetails(chart) }, 100);
                     }
-                });
-            });
+                }).fail(function() { updateDetails(chart); });
+            }).fail(function() { updateDetails(chart); });
+        }
+
+        function startUpdate() {
+            var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
+            updateDetails(chart);
         }
 
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(function() { updateDetails(); });
+        google.charts.setOnLoadCallback(function() { startUpdate(); });
     </script>
 <% end %>
 <h2>Details</h2>
