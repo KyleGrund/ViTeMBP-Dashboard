@@ -1,9 +1,10 @@
 <% content_for :header_additions do %>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
     <script src="https://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
     <script type="text/javascript">
-        function updateDetails(chart) {
+        function updateDetails() {
             var id = "<%= @id %>";
             var capture = "<%= @capture_id %>";
 
@@ -75,16 +76,13 @@
                     );
 
                     if (!details.isComplete) {
-                        setTimeout(function() { updateDetails(chart) }, 100);
+                        setTimeout(function() { updateDetails() }, 100);
                     }
-                }).fail(function() { updateDetails(chart); });
-            }).fail(function() { updateDetails(chart); });
+                }).fail(function() { updateDetails(); });
+            }).fail(function() { updateDetails(); });
         }
 
-        function startUpdate() {
-            var chart = new google.visualization.LineChart(document.getElementById('sensor_data_curve_chart'));
-            updateDetails(chart);
-        }
+        $(window).on('load', function() { updateDetails(); })
     </script>
 <% end %>
 <h2>Details</h2>
