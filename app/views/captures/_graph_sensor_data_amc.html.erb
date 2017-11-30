@@ -1,6 +1,7 @@
 <% content_for :header_additions do %>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
     <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
     <script type="text/javascript">
         function updateDetails(chart) {
             var id = "<%= @id %>";
@@ -14,8 +15,8 @@
                 document.getElementById('Sensors').innerHTML = details.sensorNames;
                 document.getElementById('IsComplete').innerHTML = details.isComplete;
 
-                $.getJSON('/' + id + '/captures_line_graph_csv/show_all_sensors/' + capture, function(rawData){
-                    var data = AmCharts.parseCSV( response, {
+                $.get('/' + id + '/captures_line_graph_csv/show_all_sensors/' + capture, function(rawData){
+                    var data = AmCharts.parseCSV( rawData, {
                         "useColumnNames": true
                     } );
 
