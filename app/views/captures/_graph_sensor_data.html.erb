@@ -6,6 +6,18 @@
             var id = "<%= @id %>";
             var capture = "<%= @capture_id %>";
 
+            $.getJSON('/' + id + '/captures_line_graph/show_all_sensors/' + capture, function(rawData){
+                var data = new google.visualization.arrayToDataTable(rawData);
+
+                var options = {
+                    title: 'Sensor Data',
+                    curveType: 'function',
+                    legend: {position: 'bottom'}
+                };
+
+                chart.draw(data, options);
+            });
+
             $.getJSON('/' + id + '/capture_summary/get_summary/' + capture, function(details){
                 document.getElementById('CreatedTime').innerHTML = details.createdTime;
                 document.getElementById('Duration').innerHTML = details.captureDuration;
@@ -14,21 +26,9 @@
                 document.getElementById('Sensors').innerHTML = details.sensorNames;
                 document.getElementById('IsComplete').innerHTML = details.isComplete;
 
-                $.getJSON('/' + id + '/captures_line_graph/show_all_sensors/' + capture, function(rawData){
-                    var data = new google.visualization.arrayToDataTable(rawData);
-
-                    var options = {
-                        title: 'Sensor Data',
-                        curveType: 'function',
-                        legend: {position: 'bottom'}
-                    };
-
-                    chart.draw(data, options);
-
-                    if (!details.isComplete) {
-                        setTimeout(function() { updateDetails(chart) }, 100);
-                    }
-                }).fail(function() { updateDetails(chart); });
+                if (!details.isComplete) {
+                    setTimeout(function() { updateDetails(chart) }, 2000);
+                }
             }).fail(function() { updateDetails(chart); });
         }
 
