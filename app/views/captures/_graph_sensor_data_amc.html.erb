@@ -16,70 +16,57 @@
                 document.getElementById('Sensors').innerHTML = details.sensorNames;
                 document.getElementById('IsComplete').innerHTML = details.isComplete;
 
-                $.get('/' + id + '/captures_line_graph/show_all_sensors_csv/' + capture, function(rawData){
-                    var data = AmCharts.parseCSV( rawData, {
-                        "useColumnNames": true
-                    } );
-
-                    <!-- amCharts javascript code -->
-                    AmCharts.makeChart("chartdiv",
-                        {
-                            "type": "serial",
-                            "categoryField": "category",
-                            "startDuration": 1,
-                            "categoryAxis": {
-                                "gridPosition": "start"
-                            },
-                            "trendLines": [],
-                            "graphs": [
-                                {
-                                    "balloonText": "[[title]] of [[category]]:[[value]]",
-                                    "bullet": "round",
-                                    "id": "AmGraph-1",
-                                    "title": "graph 1",
-                                    "valueField": "column-1"
-                                },
-                                {
-                                    "id": "AmGraph-3",
-                                    "title": "graph 3",
-                                    "valueField": "index"
-                                },
-                                {
-                                    "fixedColumnWidth": -3,
-                                    "id": "AmGraph-4",
-                                    "title": "graph 4",
-                                    "valueField": "Accelerometer"
-                                }
-                            ],
-                            "guides": [],
-                            "valueAxes": [
-                                {
-                                    "id": "ValueAxis-1",
-                                    "title": ""
-                                }
-                            ],
-                            "allLabels": [],
-                            "balloon": {},
-                            "legend": {
-                                "enabled": true,
-                                "useGraphSettings": true
-                            },
-                            "titles": [
-                                {
-                                    "id": "Title-1",
-                                    "size": 15,
-                                    "text": "Sensor Data"
-                                }
-                            ],
-                            "dataProvider": data
-                        }
-                    );
-
-                    if (!details.isComplete) {
-                        setTimeout(function() { updateDetails() }, 100);
-                    }
-                }).fail(function() { updateDetails(); });
+                if (!details.isComplete) {
+                    setTimeout(function() { updateDetails() }, 100);
+                }
             }).fail(function() { updateDetails(); });
+            $.get('/' + id + '/captures_line_graph/show_all_sensors_csv/' + capture, function(rawData){
+                var data = AmCharts.parseCSV( rawData, {
+                    "useColumnNames": true
+                } );
+
+                <!-- amCharts javascript code -->
+                AmCharts.makeChart("chartdiv",
+                    {
+                        "type": "serial",
+                        "categoryField": "category",
+                        "startDuration": 1,
+                        "categoryAxis": {
+                            "gridPosition": "start"
+                        },
+                        "trendLines": [],
+                        "graphs": [
+                            {
+                                "fixedColumnWidth": -3,
+                                "id": "AmGraph-4",
+                                "title": "graph 4",
+                                "valueField": "Frame Accelerometer"
+                            }
+                        ],
+                        "guides": [],
+                        "valueAxes": [
+                            {
+                                "id": "ValueAxis-1",
+                                "title": ""
+                            }
+                        ],
+                        "allLabels": [],
+                        "balloon": {},
+                        "legend": {
+                            "enabled": true,
+                            "useGraphSettings": true
+                        },
+                        "titles": [
+                            {
+                                "id": "Title-1",
+                                "size": 15,
+                                "text": "Sensor Data"
+                            }
+                        ],
+                        "dataProvider": data
+                    }
+                );
+            });
         }
 
         $(window).on('load', function() { updateDetails(); })
