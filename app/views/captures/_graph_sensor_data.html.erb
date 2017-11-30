@@ -41,7 +41,7 @@
                 document.getElementById('Sensors').innerHTML = details.sensorNames;
                 document.getElementById('IsComplete').innerHTML = details.isComplete;
 
-		if (!details.isComplete) {
+		            if (!details.isComplete) {
                     setTimeout(updateDetails, 3000);
                     setTimeout(drawSensorDataChart, 3000);
                 }
